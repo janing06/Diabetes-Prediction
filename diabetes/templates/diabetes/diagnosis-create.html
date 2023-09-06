@@ -1,0 +1,127 @@
+{% extends 'diabetes/base.html' %}
+
+{% block content %}
+
+<x-app-layout>
+     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-md-0">
+			<h2 class="h4">Add Patient</h2>
+		</div>
+	</div>
+	<div class="row justify-content-center mb-4">
+		<div class="col-12 col-xl-10">
+
+			<div class="card card-body border-0 shadow mb-4 p-5">
+				<h2 class="h5 mb-4">Patient information</h2>
+
+				<form method="POST" action="">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-md-6 mb-3">
+                                   <label for="patient">Patient<span class="text-danger">*</span></label>
+                                   <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search ID" name="" id="autocomplete-input">
+                                        <select class="form-select" name="patient" id="suggestions-list" required>
+                                        </select>
+                                   </div>
+						</div>
+                              <div class="col-md-6 mb-3">
+							<div class="form-group">
+								<label for="date">Date<span class="text-danger">*</span></label>
+								<input class="form-control" name="date" required type="date" id="date">
+							</div>
+						</div>
+						<div class="col-md-12 mb-3">
+							<div class="form-group">
+								<label for="">Description</label>
+                                        <textarea class="form-control" name="description" placeholder="Description.."  aria-label="With textarea"></textarea> 
+                                   </div>
+						</div>
+						
+						<div class="col-md-6 mb-3">
+							<div class="form-group">
+								<label for="age">Current Age<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="current_age" required id="age" placeholder="Age">
+							</div>
+						</div>
+
+                              <div class="col-md-6 mb-3">
+							<div class="form-group">
+								<label for="weight">Current Weight (kg)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="current_weight" required step="0.01" id="weight" placeholder="Weight">
+							</div>
+						</div>
+						
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test1">Test 1<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test1" required step="0.01" id="test1" placeholder="Test 1">
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test2">Test 2<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test2" required step="0.01" id="test2" placeholder="Test 2">
+							</div>
+						</div>
+                              <div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Test 3<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" placeholder="Test 3">
+							</div>
+						</div>
+
+						
+
+					</div>
+
+					<div class="mt-3">
+						<button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Save</button>
+					</div>
+
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+</x-app-layout>
+   
+  
+   
+
+     <script>
+          const autocompleteInput = document.getElementById('autocomplete-input');
+          const suggestionsList = document.getElementById('suggestions-list');
+
+          autocompleteInput.addEventListener('input', async function () {
+          const query = this.value.trim();
+          suggestionsList.innerHTML = '';
+
+          if (query.length === 0) {
+               return;
+          }
+
+          try {
+               const response = await fetch(`/patient_api/?q=${query}`);
+               if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+
+               const data = await response.json();
+
+               console.log(data)
+
+               data.forEach(patient => {
+                    console.log(patient.custom_patient_id)
+                    const suggestionItem = document.createElement('option');
+                    suggestionItem.value = patient.id
+                    suggestionItem.textContent = patient.custom_patient_id
+                    suggestionsList.appendChild(suggestionItem);
+               });
+          } catch (error) {
+               console.error('Error:', error);
+          }
+          });
+     </script>
+{% endblock %}

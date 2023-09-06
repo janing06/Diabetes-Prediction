@@ -1,0 +1,124 @@
+{% extends 'diabetes/base.html' %}
+
+{% block content %}
+
+<x-app-layout>
+
+
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-md-0">
+			<h2 class="h4">Diagnos Patient</h2>
+		</div>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{% url 'diagnosis-create' %}" class="btn btn-sm btn-success d-inline-flex align-items-center text-white animate-up-1">
+				<i class="icon icon-xs me-2 bi bi-plus-lg"></i>
+				Add Diagnos Patient
+			</a>
+		</div>
+	</div>
+	<div class="table-settings mb-4">
+		<div class="row align-items-center justify-content-between">
+			<div class="col col-md-6 col-lg-3 col-xl-4">
+				<form action="" method="GET">
+					<div class="input-group me-2 me-lg-3 fmxw-400">
+						<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search ID">
+						<span class="input-group-text">
+							<button type="submit" class="btn btn-xs">
+								<i class="icon fs-6 bi bi-search"></i>
+							</button>
+						</span>
+						
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+	</div>
+	
+
+	<div class="card card-body border-0 shadow table-wrapper table-responsive mb-2">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				
+					<th class="border-gray-200">Patient ID</th>
+					<th class="border-gray-200">Date</th>
+					<th class="border-gray-200">Current Age</th>
+					<th class="border-gray-200">Current Weight (kg)</th>
+					<th class="border-gray-200">Prediction</th>
+					<th class="border-gray-200">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				{% for diagnos in diagnosis %}
+					<tr>
+						<td valign="middle">
+							<span class="fw-normal">{{ diagnos.patient.custom_patient_id }}</span>
+						</td>
+						<td valign="middle"><span class="fw-normal">{{ diagnos.date }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ diagnos.current_age }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ diagnos.current_weight }}</span></td>						
+						<td valign="middle"><span class="fw-normal">{{ diagnos.prediction_result }}</span></td>						
+
+						
+						<td valign="middle">
+							<a href="" class="btn btn-sm btn-pill btn-outline-tertiary">Show</a>
+						</td>
+					
+					</tr>
+                 
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+	
+
+		
+
+	</div>
+	<div class="d-flex justify-content-center">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+			    {% if diagnosis.has_previous %}
+				   <li class="page-item"><a class="page-link" href="?page={{ diagnosis.previous_page_number }}">«</a></li>
+			    {% endif %}
+			    
+			    {% if diagnosis.number > 3 %}
+				   <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+				   {% if diagnosis.number > 4 %}
+					  <li class="page-item disabled"><span class="page-link">...</span></li>
+				   {% endif %}
+			    {% endif %}
+			    
+			    {% for num in diagnosis.paginator.page_range %}
+				   {% if num > diagnosis.number|add:'-3' and num < diagnosis.number|add:'3' %}
+					  {% if num == diagnosis.number %}
+							{% if diagnosis.paginator.num_pages != 1 %}
+							    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+							{% endif %}
+					  {% else %}
+						 <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+					  {% endif %}
+				   {% endif %}
+			    {% endfor %}
+			    
+			    {% if diagnosis.number < diagnosis.paginator.num_pages|add:'-3' %}
+				   {% if diagnosis.number < diagnosis.paginator.num_pages|add:'-3' %}
+					  <li class="page-item disabled"><span class="page-link">...</span></li>
+				   {% endif %}
+				   <li class="page-item"><a class="page-link" href="?page={{ diagnosis.paginator.num_pages }}">{{ diagnosis.paginator.num_pages }}</a></li>
+			    {% endif %}
+			    
+			    {% if patients.has_next %}
+				   <li class="page-item"><a class="page-link" href="?page={{ diagnosis.next_page_number }}">»</a></li>
+			    {% endif %}
+			</ul>
+		 </nav>
+		</div>
+	
+</x-app-layout>
+
+{% endblock %}

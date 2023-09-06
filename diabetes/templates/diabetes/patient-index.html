@@ -1,0 +1,161 @@
+{% extends 'diabetes/base.html' %}
+
+{% block content %}
+
+<x-app-layout>
+
+
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+		<div class="d-block mb-md-0">
+			<h2 class="h4">Patients</h2>
+		</div>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<a href="{% url 'patient-create' %}" class="btn btn-sm btn-success d-inline-flex align-items-center text-white animate-up-1">
+				<i class="icon icon-xs me-2 bi bi-plus-lg"></i>
+				Add Patient
+			</a>
+		</div>
+	</div>
+	<div class="table-settings mb-4">
+		<div class="row align-items-center justify-content-between">
+			<div class="col col-md-6 col-lg-3 col-xl-4">
+				<form action="" method="GET">
+					<div class="input-group me-2 me-lg-3 fmxw-400">
+						<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search ID">
+						<span class="input-group-text">
+							<button type="submit" class="btn btn-xs">
+								<i class="icon fs-6 bi bi-search"></i>
+							</button>
+						</span>
+						
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+	</div>
+	
+
+	<div class="card card-body border-0 shadow table-wrapper table-responsive mb-2">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				
+					<th class="border-gray-200">Patient ID</th>
+					<th class="border-gray-200">First name</th>
+					<th class="border-gray-200">Last name</th>
+					<th class="border-gray-200">Sex</th>
+					<th class="border-gray-200">Doctor</th>
+		
+					<th class="border-gray-200">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if patient %}
+					<tr>
+						<td valign="middle">
+							<span class="fw-normal">{{ patient.custom_patient_id }}</span>
+						</td>
+						<td valign="middle"><span class="fw-normal">{{ patient.first_name|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.last_name|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.sex|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.added_by.first_name|title }} {{ patient.added_by.last_name|title }}</span></td>
+						
+
+
+					
+						{% if patient.added_by == request.user %}
+						<td valign="middle">
+							<a href="{% url 'patient-update' patient.id %}" class="btn btn-sm btn-pill btn-outline-tertiary">Show</a>
+						</td>
+						{% else %}
+						<td valign="middle">
+							<a href="" class="btn btn-sm btn-pill btn-outline-tertiary disabled">Show</a>
+						</td>
+						{% endif %}
+					</tr>
+				{% endif %}
+				{% for patient in patients %}
+					<tr>
+						<td valign="middle">
+							<span class="fw-normal">{{ patient.custom_patient_id }}</span>
+						</td>
+						<td valign="middle"><span class="fw-normal">{{ patient.first_name|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.last_name|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.sex|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.added_by.first_name|title }} {{ patient.added_by.last_name|title }}</span></td>
+						
+
+						{% if patient.added_by == request.user %}
+						<td valign="middle">
+							<a href="{% url 'patient-update' patient.id %}" class="btn btn-sm btn-pill btn-outline-tertiary">Show</a>
+						</td>
+						{% else %}
+						<td valign="middle">
+							<a href="" class="btn btn-sm btn-pill btn-outline-tertiary disabled">Show</a>
+						</td>
+						{% endif %}
+					</tr>
+				{% if patient %}
+
+					
+				{% else %}
+					<tr class="text-center">
+						<td colspan="11">No data.</td>
+					</tr>
+				{% endif %}
+                 
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+	
+
+		
+
+	</div>
+	<div class="d-flex justify-content-center">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+			    {% if patients.has_previous %}
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">«</a></li>
+			    {% endif %}
+			    
+			    {% if patients.number > 3 %}
+				   <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+				   {% if patients.number > 4 %}
+					  <li class="page-item disabled"><span class="page-link">...</span></li>
+				   {% endif %}
+			    {% endif %}
+			    
+			    {% for num in patients.paginator.page_range %}
+				   {% if num > patients.number|add:'-3' and num < patients.number|add:'3' %}
+					  {% if num == patients.number %}
+							{% if patients.paginator.num_pages != 1 %}
+							    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+							{% endif %}
+					  {% else %}
+						 <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+					  {% endif %}
+				   {% endif %}
+			    {% endfor %}
+			    
+			    {% if patients.number < patients.paginator.num_pages|add:'-3' %}
+				   {% if patients.number < patients.paginator.num_pages|add:'-3' %}
+					  <li class="page-item disabled"><span class="page-link">...</span></li>
+				   {% endif %}
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">{{ patients.paginator.num_pages }}</a></li>
+			    {% endif %}
+			    
+			    {% if patients.has_next %}
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">»</a></li>
+			    {% endif %}
+			</ul>
+		 </nav>
+		</div>
+	
+</x-app-layout>
+{% endblock %}
+

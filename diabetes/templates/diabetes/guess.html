@@ -18,15 +18,10 @@
 
           <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
                <div class="container">
-                    <p class="text-center">
-                         <a href="" class="d-flex align-items-center justify-content-center">
-                              <i class="icon icon-sm me-2 bi bi-arrow-left"></i>
-                              Back to homepage
-                         </a>
-                    </p>
-                    <div class="row justify-content-center form-bg-image" data-background-lg="{% static 'img/illustrations/signin.svg' %}">
+                  
+                    <div class="row justify-content-center form-bg-image" >
                          <div class="col-12 d-flex align-items-center justify-content-center">
-                              <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                              <div class="bg-white shadow-lg border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                                    {% block guess %}
 
                                    {% endblock %}
@@ -44,5 +39,15 @@
      <script src="{% static 'vendor/smooth-scroll/smooth-scroll.min.js' %}"></script>
 
      <script src="{% static 'theme/volt.js' %}"></script>
+     <script>
+
+          function hideAlert(){
+               document.querySelector('.alert').style.display = 'none'
+           }
+  
+           setTimeout(hideAlert, 3000)
+
+          
+     </script>
 </body>
 </html>

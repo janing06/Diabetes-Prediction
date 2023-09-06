@@ -10,7 +10,7 @@
 						aria-expanded="false">
 						<div class="media d-flex align-items-center">
 							
-							<img class="rounded-pill border border-warning border-3" src="{{ request.user.extendedusermodel.image.url }}" width="50px">
+							<img class="rounded-circle border border-warning border-3" src="{{ request.user.extendedusermodel.image.url }}" width="50px">
 
 							<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
 							
@@ -28,8 +28,7 @@
 						
 						<form method="" action="{% url 'login' %}">
                                 
-							<a class="dropdown-item d-flex align-items-center" href="" onclick="event.preventDefault();
-								this.closest('form').submit();">
+							<a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}?next={% url 'login' %}">
 								<i class="dropdown-icon text-danger me-2 bi bi-box-arrow-right"></i>
 								Logout
 							</a>

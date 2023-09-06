@@ -14,7 +14,7 @@
 	<div class="row justify-content-center mb-4">
 		<div class="col-12 col-xl-8">
 
-			<div class="card card-body border-0 shadow mb-4">
+			<!-- <div class="card card-body border-0 shadow mb-4">
 				<h2 class="h5 mb-4">Profile information</h2>
 
 				<form method="POST" action="">
@@ -22,7 +22,7 @@
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
-								<label for="name">Name</label>
+								<label for="name"></label>
 								<input class="form-control " id="name" name="name" type="text" value="" >
 							</div>
 						</div>
@@ -42,18 +42,19 @@
 
 				</form>
 
-			</div>
+			</div> -->
 
 			<div class="card card-body border-0 shadow mb-4">
 				<h2 class="h5 mb-4">Update Password</h2>
-				
-				<form method="POST" action="">
 
+				
+				<form method="POST" action="{% url 'update-password' %}">
+					{% csrf_token %}
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="current_password">Current Password</label>
-								<input class="form-control " id="current_password" name="current_password" type="password" placeholder="Current Password" >
+								<input class="form-control " id="current_password" required name="current_password" type="password" placeholder="Current Password" >
 							
 							</div>
 						</div>
@@ -63,7 +64,7 @@
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="password">New Password</label>
-								<input class="form-control" id="password" name="password" type="password" placeholder="New Password" >
+								<input class="form-control" id="password" name="password" required type="password" placeholder="New Password" >
 							
 							</div>
 						</div>
@@ -73,7 +74,7 @@
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="password_confirmation">Confirm Password</label>
-								<input class="form-control" id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" >
+								<input class="form-control" id="password_confirmation" required name="password_confirmation" type="password" placeholder="Confirm Password" >
 							</div>
 						</div>
 					</div>

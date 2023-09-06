@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,15 +21,26 @@
 	<main class="content">
 
           {% include 'diabetes/navbar.html' %}
+
+          {% if messages %}
+		{% for message in messages %}
+			<div	div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'warning' %}alert-warning{% else %}alert-success{% endif %} mt-2 text-center p-3 mx-5 alert-dismissible fade show" role="alert">{{ message }}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+               </div>
+		{% endfor %}
+	{% endif %}
           
           {% block content %}
+
+          
 
           
           
 
           {% endblock %}
 
-          {% include 'diabetes/footer.html' %}
+         
 
 	</main>
 
@@ -39,5 +51,15 @@
 	<script src="{% static 'vendor/smooth-scroll/smooth-scroll.min.js' %}"></script>
 
      <script src="{% static 'theme/volt.js' %}"></script>
+     <script>
+
+          function hideAlert(){
+               document.querySelector('.alert').style.display = 'none'
+           }
+  
+           setTimeout(hideAlert, 3000)
+
+          
+     </script> 
 </body>
 </html>

@@ -33,8 +33,10 @@ def generate_unique_id():
         formatted_id = '-'.join([unique_id[i:i+4] for i in range(0, len(unique_id), 4)])
     return formatted_id 
   
+  
      
 class Patient(models.Model):
+     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
      custom_patient_id = models.CharField(max_length=14, unique=True, default=generate_unique_id, verbose_name='Patient ID')
      first_name = models.CharField(max_length=255, verbose_name='First name')
      middle_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Middle name')
@@ -56,11 +58,11 @@ class Diagnosis(models.Model):
      created_at = models.DateTimeField(auto_now_add=True)
      updated_at = models.DateTimeField(auto_now=True)
      current_age = models.IntegerField(verbose_name='Current Age')
-     current_weight = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='Current Weight (kg)')
-     test1 = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Test 1')
-     test2 = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Test 2')
-     test3 = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Test 3')
-     prediction_result = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Prediction')
+     current_weight = models.DecimalField(max_digits=5, decimal_places=1, verbose_name='Current Weight (kg)')
+     test1 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 1')
+     test2 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 2')
+     test3 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 3')
+     prediction_result = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Prediction')
      
      def save(self, *args, **kwargs):
           

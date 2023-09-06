@@ -59,8 +59,8 @@
 					<span class="sidebar-text">Dashboard</span>
 				</a>
 			</li>
-			<li class="nav-item {% if request.path == '/users/' %}active{% endif %}">
-				<a href="{% url 'users' %}" class="nav-link">
+			<li class="nav-item {% if request.resolver_match.url_name == 'patients' or request.resolver_match.url_name == 'patient-create' or request.resolver_match.url_name == 'patient-update' %}active{% endif %}">
+				<a href="{% url 'patients' %}" class="nav-link">
   
 					<span class="sidebar-icon">
 						<i class="bi bi-person-fill"></i>
@@ -68,8 +68,8 @@
 					<span class="sidebar-text">Patient Management</span>
 				</a>
 			</li>
-			<li class="nav-item {% if request.path == '/cases/' %}active{% endif %}">
-				<a href="{% url 'cases' %}" class="nav-link">
+			<li class="nav-item {% if request.resolver_match.url_name == 'diagnosis' %}active{% endif %}">
+				<a href="{% url 'diagnosis' %}" class="nav-link">
 					<span class="sidebar-icon">
 						<i class="bi bi-journal-plus"></i>
 					</span>
