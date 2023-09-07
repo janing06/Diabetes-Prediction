@@ -1,7 +1,7 @@
 {% extends 'diabetes/base.html' %}
+{% block title %} Patients {% endblock %}
 
 {% block content %}
-
 <x-app-layout>
 
 
@@ -21,7 +21,7 @@
 			<div class="col col-md-6 col-lg-3 col-xl-4">
 				<form action="" method="GET">
 					<div class="input-group me-2 me-lg-3 fmxw-400">
-						<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search ID">
+						<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search">
 						<span class="input-group-text">
 							<button type="submit" class="btn btn-xs">
 								<i class="icon fs-6 bi bi-search"></i>
@@ -52,30 +52,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% if patient %}
-					<tr>
-						<td valign="middle">
-							<span class="fw-normal">{{ patient.custom_patient_id }}</span>
-						</td>
-						<td valign="middle"><span class="fw-normal">{{ patient.first_name|title }}</span></td>
-						<td valign="middle"><span class="fw-normal">{{ patient.last_name|title }}</span></td>
-						<td valign="middle"><span class="fw-normal">{{ patient.sex|title }}</span></td>
-						<td valign="middle"><span class="fw-normal">{{ patient.added_by.first_name|title }} {{ patient.added_by.last_name|title }}</span></td>
-						
-
-
-					
-						{% if patient.added_by == request.user %}
-						<td valign="middle">
-							<a href="{% url 'patient-update' patient.id %}" class="btn btn-sm btn-pill btn-outline-tertiary">Show</a>
-						</td>
-						{% else %}
-						<td valign="middle">
-							<a href="" class="btn btn-sm btn-pill btn-outline-tertiary disabled">Show</a>
-						</td>
-						{% endif %}
-					</tr>
-				{% endif %}
+				
 				{% for patient in patients %}
 					<tr>
 						<td valign="middle">
@@ -87,15 +64,10 @@
 						<td valign="middle"><span class="fw-normal">{{ patient.added_by.first_name|title }} {{ patient.added_by.last_name|title }}</span></td>
 						
 
-						{% if patient.added_by == request.user %}
 						<td valign="middle">
 							<a href="{% url 'patient-update' patient.id %}" class="btn btn-sm btn-pill btn-outline-tertiary">Show</a>
 						</td>
-						{% else %}
-						<td valign="middle">
-							<a href="" class="btn btn-sm btn-pill btn-outline-tertiary disabled">Show</a>
-						</td>
-						{% endif %}
+
 					</tr>
 				{% if patient %}
 
@@ -120,11 +92,11 @@
 		<nav aria-label="Page navigation example">
 			<ul class="pagination">
 			    {% if patients.has_previous %}
-				   <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}">«</a></li>
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">«</a></li>
 			    {% endif %}
 			    
 			    {% if patients.number > 3 %}
-				   <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+				   <li class="page-item"><a class="page-link" href="?page=1{% if search %}&search={{ search }}{% endif %}">1</a></li>
 				   {% if patients.number > 4 %}
 					  <li class="page-item disabled"><span class="page-link">...</span></li>
 				   {% endif %}
@@ -137,7 +109,7 @@
 							    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
 							{% endif %}
 					  {% else %}
-						 <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+						 <li class="page-item"><a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}">{{ num }}</a></li>
 					  {% endif %}
 				   {% endif %}
 			    {% endfor %}
@@ -146,11 +118,11 @@
 				   {% if patients.number < patients.paginator.num_pages|add:'-3' %}
 					  <li class="page-item disabled"><span class="page-link">...</span></li>
 				   {% endif %}
-				   <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}">{{ patients.paginator.num_pages }}</a></li>
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}">{{ patients.paginator.num_pages }}</a></li>
 			    {% endif %}
 			    
 			    {% if patients.has_next %}
-				   <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">»</a></li>
+				   <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}{% if search %}&search={{ search }}{% endif %}">»</a></li>
 			    {% endif %}
 			</ul>
 		 </nav>

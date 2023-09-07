@@ -1,31 +1,32 @@
 {% extends 'diabetes/base.html' %}
-
+{% block title %} Add Diagnosis {% endblock %}
 {% block content %}
 
 <x-app-layout>
      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
 		<div class="d-block mb-md-0">
-			<h2 class="h4">Add Patient</h2>
+			<h2 class="h4">Add Diagnosis</h2>
 		</div>
 	</div>
 	<div class="row justify-content-center mb-4">
 		<div class="col-12 col-xl-10">
 
 			<div class="card card-body border-0 shadow mb-4 p-5">
-				<h2 class="h5 mb-4">Patient information</h2>
+				<h2 class="h5 mb-4">Diagnosis information</h2>
 
 				<form method="POST" action="">
 					{% csrf_token %}
 					<div class="row">
-						<div class="col-md-6 mb-3">
-                                   <label for="patient">Patient<span class="text-danger">*</span></label>
-                                   <div class="input-group">
+						<div class="col-md-8 mb-3">
+                                   <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" readonly id="patientID" style="display: none;"></label>
+                                   <div class="input-group" id="patient">
                                         <input type="text" class="form-control" placeholder="Search ID" name="" id="autocomplete-input">
-                                        <select class="form-select" name="patient" id="suggestions-list" required>
+                                        <select class="form-select" name="" id="suggestions-list">
                                         </select>
+                                        <input type="text" class="form-control" placeholder="" required readonly name="" id="selectedID">
                                    </div>
 						</div>
-                              <div class="col-md-6 mb-3">
+                              <div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="date">Date<span class="text-danger">*</span></label>
 								<input class="form-control" name="date" required type="date" id="date">
@@ -93,6 +94,16 @@
      <script>
           const autocompleteInput = document.getElementById('autocomplete-input');
           const suggestionsList = document.getElementById('suggestions-list');
+          const selectedID = document.getElementById('selectedID');
+          const patientID = document.getElementById('patientID');
+
+		suggestionsList.addEventListener('click', () => {
+			const selectedOption = suggestionsList.options[suggestionsList.selectedIndex];
+			if (selectedOption) {
+				selectedID.value = selectedOption.textContent;
+				patientID.value = selectedOption.value
+			}
+		 });
 
           autocompleteInput.addEventListener('input', async function () {
           const query = this.value.trim();

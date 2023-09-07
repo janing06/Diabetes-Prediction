@@ -34,7 +34,7 @@ class BarangayAdmin(admin.ModelAdmin):
     
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'middle_name', 'last_name', 'address', 'sex']
+    list_display = ['id','first_name', 'middle_name', 'last_name', 'address', 'sex']
     ordering = ['-created_at']
     readonly_fields = ['custom_patient_id', 'created_at', 'updated_at']
     search_fields = ['custom_patient_id']

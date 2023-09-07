@@ -10,7 +10,7 @@
 						aria-expanded="false">
 						<div class="media d-flex align-items-center">
 							
-							<img class="rounded-circle border border-warning border-3" src="{{ request.user.extendedusermodel.image.url }}" width="50px">
+							<img class="rounded-circle border border-info border-3" src="{% if request.user.extendedusermodel.image %}{{ request.user.extendedusermodel.image.url }}{% else %}https://ui-avatars.com/api/?background=random&rounded=true&name={{ request.user.first_name }}+{{ request.user.last_name }}{% endif %}" width="50px">
 
 							<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
 							

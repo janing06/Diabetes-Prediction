@@ -1,0 +1,34 @@
+{% extends "admin/login.html" %}
+
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+#header {
+  background-color: transparent !important;
+  
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<div>
+  <center>
+  <img src="{% static 'img/brand/diabetes-logo.png' %}" width="100" alt="">
+    
+  </center>
+  <span class="lead" style="text-align: center; font-size: 2rem; font-weight: bold; color: #5e5e5e">Administration</span>
+  
+</div>
+
+
+
+{% endblock %}
+
+{% block content_title %}
+<center>
+  
+  <span style="font-size: 20px; font-weight:bold ; color: #4a6cb6">Naval Diabetes</span>
+</center>
+{% endblock %}

@@ -1,8 +1,8 @@
 {% load static %}
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
 	<a class="navbar-brand me-lg-5" href="">
-		<img class="navbar-brand-dark" src="{% static 'img/brand/light.svg' %}" alt="Volt logo" />
-		<img class="navbar-brand-light" src="{% static 'img/brand/dark.svg' %}" alt="Volt logo" />
+		<img class="navbar-brand-dark" src="{% static 'img/brand/diabetes-logo.png' %}" alt="Volt logo" />
+		<img class="navbar-brand-light" src="{% static 'img/brand/diabetes-logo.png' %}" alt="Volt logo" />
 	</a>
 	<div class="d-flex align-items-center">
 		<button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -17,21 +17,18 @@
 		<div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
 			<div class="d-flex align-items-center">
 				<div class="avatar-lg me-4">
-					<img src="{% static 'img/team/profile-picture-3.jpg' %}" class="card-img-top rounded-circle border-white"
+					<img src="{{ request.user.extendedusermodel.image.url }}" class="card-img-top rounded-circle border-white"
 						alt="Bonnie Green">
 				</div>
 				<div class="d-block">
-					<h2 class="h5 mb-3">Hi, Jane</h2>
+					<h2 class="h5 mb-3">Hi, {{ request.user.last_name|title }}</h2>
 		
-					<form method="POST" action="">
                           
 						
-						<a class="btn btn-secondary btn-sm d-inline-flex align-items-center" href="" onclick="event.preventDefault();
-							this.closest('form').submit();">
+						<a class="btn btn-danger btn-sm d-inline-flex align-items-center" href="{% url 'logout' %}?next={% url 'login' %}" >
 							<i class="icon icon-xxs me-1 bi bi-box-arrow-right"></i>
 							Logout
 						</a>
-					</form>
 				</div>
 			</div>
 			<div class="collapse-close d-md-none">
@@ -45,7 +42,8 @@
 			<li class="nav-item">
 				<a href="{% url 'index' %}" class="nav-link d-flex align-items-center	">
 					<span class="sidebar-icon">
-						<i class="bi bi-node-plus-fill" style="font-size: 40px;color:orange;"></i>
+						<img class="navbar-brand-light" src="{% static 'img/brand/diabetes-logo.png' %}" width="50" alt="Volt logo" />
+
 					</span>
 					<span class="mt-1 ms-2 sidebar-text fw-bold fs-3 font-monospace fst-italic">Diabetes</span>
 				</a>
@@ -65,33 +63,33 @@
 					<span class="sidebar-icon">
 						<i class="bi bi-person-fill"></i>
 					</span>
-					<span class="sidebar-text">Patient Management</span>
+					<span class="sidebar-text">Patients</span>
 				</a>
 			</li>
-			<li class="nav-item {% if request.resolver_match.url_name == 'diagnosis' %}active{% endif %}">
+			<li class="nav-item {% if request.resolver_match.url_name == 'diagnosis' or request.resolver_match.url_name == 'diagnosis-create' or request.resolver_match.url_name == 'diagnosis-update' %}active{% endif %}">
 				<a href="{% url 'diagnosis' %}" class="nav-link">
 					<span class="sidebar-icon">
 						<i class="bi bi-journal-plus"></i>
 					</span>
-					<span class="sidebar-text">Diagnosis Management</span>
+					<span class="sidebar-text">Diagnosis</span>
 				</a>
 			</li>
 			<li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
-			<li class="nav-item">
-				<a href="{% url 'index' %}" class="nav-link d-flex align-items-center">
+			<!-- <li class="nav-item">
+				<a href="{% url 'admin:index' %}" class="nav-link d-flex align-items-center">
 					<span class="sidebar-icon">
 						<i class="icon icon-xs me-2 bi bi-house"></i>
 					</span>
-					<span class="sidebar-text">Homepage</span>
+					<span class="sidebar-text">Admin</span>
 				</a>
-			</li>
+			</li> -->
 			<li class="nav-item">
-				<a target="_blank" href="https://bipsu.edu.ph/index.php/about-us/the-university/university-seal"
-					class="btn btn-secondary d-flex align-items-center justify-content-center btn-upgrade-pro">
+				<a target="_blank" href="{% url 'admin:index' %}"
+					class="btn btn-info d-flex align-items-center justify-content-center btn-upgrade-pro">
 					<span class="sidebar-icon d-inline-flex align-items-center justify-content-center">
 						<i class="icon icon-xs me-2 bi bi-globe"></i>
 					</span>
-					<span>Official Website</span>
+					<span>Administration</span>
 				</a>
 			</li>
 		</ul>

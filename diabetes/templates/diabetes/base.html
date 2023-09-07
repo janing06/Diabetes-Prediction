@@ -5,13 +5,21 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Diabetes</title>
+     <title>{% block title %}{% endblock %} | Naval Diabetes</title>
 
 	<link type="text/css" href="{% static 'theme/volt.css' %}" rel="stylesheet">
 
-     <link href="{% static 'img/brand/test.svg' %}" rel="shortcut icon">
+     <link rel="shortcut icon" href="{% static 'img/brand/diabetes-logo.png' %}" />
 
 	<link type="text/css" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+     <style>
+          @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Poppins&display=swap');
+          *{
+               
+              font-family: 'Poppins';
+          }
+     </style>
 </head>
 <body>
 

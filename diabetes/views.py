@@ -8,21 +8,88 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .forms import PatientFrom
+from decimal import Decimal
+from django.db.models import Q
+
+def diagnos_delete(request, id):
+     diagnosis = get_object_or_404(Diagnosis, pk=id)
+     
+    
+    
+     diagnosis.delete()
+     messages.warning(request, 'Diagnosis Deleted Successfully.')
+     return redirect('diagnosis')
+
+def diagnos_update(request, id):
+     
+     # diagnosis = get_object_or_404(Diagnosis, pk=id)
+          
+     # if diagnosis.patient.added_by != request.user:
+     #     messages.error(request, 'You did not add the Patient')
+     #     return redirect('diagnosis')
+     
+     if request.method == 'POST':
+     
+          diagnosis = get_object_or_404(Diagnosis, pk=id)
+          
+          
+          patient_id = request.POST.get('patient')
+          try:
+               patient = get_object_or_404(Patient, pk=patient_id)
+          except:
+               messages.error(request, 'Please enter correct ID')
+               return redirect('diagnosis')
+          
+          date = request.POST.get('date')
+          description = request.POST.get('description')
+          current_age = int(request.POST.get('current_age'))
+          current_weight = Decimal(request.POST.get('current_weight'))
+          test1 = Decimal(request.POST.get('test1'))
+          test2 = Decimal(request.POST.get('test2'))
+          test3 = Decimal(request.POST.get('test3'))
+          
+          # Update the existing diagnosis object
+          diagnosis.patient = patient
+          diagnosis.date = date
+          diagnosis.description = description
+          diagnosis.current_age = current_age
+          diagnosis.current_weight = current_weight
+          diagnosis.test1 = test1
+          diagnosis.test2 = test2
+          diagnosis.test3 = test3
+          diagnosis.save()
+          
+     
+          messages.success(request, 'Diagnosis Updated Successfully.')
+          return redirect('diagnosis') 
+     
+     else:
+          
+     
+          diagnosis = get_object_or_404(Diagnosis, pk=id)
+
+
+          return render(request, 'diabetes/diagnosis-update.html',{'diagnosis': diagnosis})
 
 def patient_list_api(request):
      
      query = request.GET.get('q', '')
 
      patients = Patient.objects.filter(custom_patient_id__istartswith=query).values('id', 'custom_patient_id').order_by('-custom_patient_id')
-     
+
      return JsonResponse(list(patients), safe=False)
 
 def diagnos_create(request):
-     from decimal import Decimal
+
      if request.method == 'POST':
      
           patient_id = request.POST.get('patient')
-          patient = get_object_or_404(Patient, pk=patient_id)
+          try:
+               patient = get_object_or_404(Patient, pk=patient_id)
+          except:
+               messages.error(request, 'Please enter correct ID')
+               return redirect('diagnosis-create')
+          
           date = request.POST.get('date')
           description = request.POST.get('description')
           current_age = int(request.POST.get('current_age'))
@@ -46,13 +113,19 @@ def diagnos_create(request):
           messages.success(request, 'Diagnosis Added Successfully.')
           return redirect('diagnosis') 
           
-     
-     return render(request, 'diabetes/diagnosis-create.html')
+     else:
+          return render(request, 'diabetes/diagnosis-create.html')
 
 
 def diagnosis_index(request):
      
-     queryset = Diagnosis.objects.all().order_by('-created_at')
+     search = request.GET.get('search')
+     
+     if search:
+          queryset = Diagnosis.objects.filter(Q(patient__custom_patient_id__icontains=search) | Q(date__icontains=search)).order_by('-updated_at')
+     else:
+          search = ''
+          queryset = Diagnosis.objects.all().order_by('-updated_at')
      
      items_per_page = 5
 
@@ -63,7 +136,7 @@ def diagnosis_index(request):
      diagnosis = paginator.get_page(page_number)
      
      
-     return render(request, 'diabetes/diagnosis-index.html',{'diagnosis': diagnosis})
+     return render(request, 'diabetes/diagnosis-index.html',{'diagnosis': diagnosis, 'search': search})
 
 
 def patient_delete(request, id):
@@ -82,9 +155,6 @@ def patient_update(request, id):
     # Get the patient object you want to update
     patient = get_object_or_404(Patient, pk=id)
     
-    if patient.added_by != request.user:
-         messages.error(request, 'You did not add the Patient')
-         return redirect('patients')
 
     if request.method == 'POST':
         form = PatientFrom(request.POST, instance=patient)
@@ -126,18 +196,10 @@ def patient_index(request):
      search = request.GET.get('search')
      
      if search:
-          
-          try:
-          
-               patient = Patient.objects.get(custom_patient_id = search)
-               
-               return render(request, 'diabetes/patient-index.html',{'patient': patient, 'search': search})
-          except:
-               messages.error(request, 'ID not found')
-               return redirect('patients')
-          
-     
-     queryset = Patient.objects.all().order_by('-created_at')
+          queryset = Patient.objects.filter(Q(custom_patient_id__icontains = search) | Q(first_name__icontains = search) | Q(last_name__icontains = search) | Q(added_by__first_name__icontains=search) | Q(added_by__last_name__icontains=search)).order_by('-created_at')
+     else:
+          search = ''
+          queryset = Patient.objects.all().order_by('-created_at')
      items_per_page = 5
 
      paginator = Paginator(queryset, items_per_page)
@@ -146,7 +208,7 @@ def patient_index(request):
 
      patients = paginator.get_page(page_number)
      
-     return render(request, 'diabetes/patient-index.html',{'patients': patients})
+     return render(request, 'diabetes/patient-index.html',{'patients': patients, 'search': search})
 
 
 
