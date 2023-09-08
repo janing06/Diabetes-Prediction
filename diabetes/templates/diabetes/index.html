@@ -6,26 +6,26 @@
 
 	<div class="row py-4">
 		<div class="col-12 col-sm-6 col-xl-4 mb-4">
-			<div class="card border-0 shadow animate-up-1">
+			<div class="card border-0 shadow-lg">
 				<div class="card-body">
 					<div class="row d-block d-xl-flex align-items-center">
 						<div
 							class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-							<div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-								<svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-									</path>
+							<div class="icon-shape icon-shape-danger rounded me-4 me-sm-0">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-journal-medical" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+									<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+									<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
 								</svg>
 							</div>
 							<div class="d-sm-none">
-								<h2 class="h5"># of Diagnos</h2>
-								<h3 class="fw-extrabold mb-1">15132/h3>
+								<h2 class="h5">Total Diagnosed</h2>
+								<h3 class="fw-extrabold mb-1">{{ diagnos.count }}</h3>
 							</div>
 						</div>
 						<div class="col-12 col-xl-7 px-xl-0">
 							<div class="d-none d-sm-block">
-								<h2 class="h6 text-gray-400 mb-0"># of Diagnos</h2>
+								<h2 class="h6 text-gray-400 mb-0">Total Diagnosed</h2>
 								<h3 class="fw-extrabold mb-2">{{ diagnos.count }}</h3>
 							</div>
 						</div>
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-sm-6 col-xl-4 mb-4">
+		<!-- <div class="col-12 col-sm-6 col-xl-4 mb-4">
 			<div class="card border-0 shadow animate-up-1">
 				<div class="card-body">
 					<div class="row d-block d-xl-flex align-items-center">
@@ -61,30 +61,30 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
           
 		<div class="col-12 col-sm-6 col-xl-4 mb-4">
-			<div class="card border-0 shadow animate-up-1">
+			<div class="card border-0 shadow-lg">
 				<div class="card-body">
 					<div class="row d-block d-xl-flex align-items-center">
 						<div
 							class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-							<div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
+							<div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
 								<svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd"
-										d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-										clip-rule="evenodd"></path>
+									<path
+										d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+									</path>
 								</svg>
 							</div>
 							<div class="d-sm-none">
-								<h2 class="fw-extrabold h5"># of Patients</h2>
+								<h2 class="fw-extrabold h5">Total Patients</h2>
 								<h3 class="mb-1">{{ patients.count }}</h3>
 							</div>
 						</div>
 						<div class="col-12 col-xl-7 px-xl-0">
 							<div class="d-none d-sm-block">
-								<h2 class="h6 text-gray-400 mb-0"># of Patients</h2>
+								<h2 class="h6 text-gray-400 mb-0">Total Patients</h2>
 								<h3 class="fw-extrabold mb-2">{{ patients.count }}</h3>
 							</div>
 						</div>
@@ -92,9 +92,146 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-12 col-sm-6 col-xl-4 mb-4">
+			<div class="card border-0 shadow-lg">
+				<div class="card-body">
+					<div class="row d-block d-xl-flex align-items-center">
+						<div
+							class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+							<div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
+								<svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd"
+										d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
+										clip-rule="evenodd"></path>
+								</svg>
+							</div>
+							<div class="d-sm-none">
+								<h2 class="fw-extrabold h5">Diagnosed this Year</h2>
+								<h3 class="mb-1">{{ current_year_diagnoses.count }}</h3>
+							</div>
+						</div>
+						<div class="col-12 col-xl-7 px-xl-0">
+							<div class="d-none d-sm-block">
+								<h2 class="h6 text-gray-400 mb-0">Diagnosed this year</h2>
+								<h3 class="fw-extrabold mb-2">{{ current_year_diagnoses.count }}</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-sm-12 col-md-12 col-xl-12 mb-4">
+			<div class="card border-0 shadow-lg">
+				
+				<div class="card-body">
+					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="handleChange(this)" style="width: 220px;">
+						<option value="yearly">Annually</option>
+						<option value="monthly">Current Year (Monthly)</option>
+					 </select>
+					<div>
+						<canvas id="barChart" height="105"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-sm-6 col-xl-4 mb-4">
+			<div class="card border-0 shadow-lg	">
+				<div class="card-header text-center"><h5 class="fw-extrabold">PREDICTION</span></div>
+				<div class="card-body">
+					<div>
+						<canvas id="pieChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
         
 
 	</div>
-	
+	<script>
+
+		const yearly_diagnosed = JSON.parse('{{ json_yearly_diagnosed|safe }}')
+		const monthly_diagnosed = JSON.parse('{{ json_monthly_this_year_diagnosed|safe }}')
+
+		console.log(monthly_diagnosed)
+
+
+		const bar = document.getElementById('barChart');
+	   
+		const barChart = new Chart(bar, {
+		  type: 'bar',
+		  data: {
+		    labels: yearly_diagnosed.map(item => item.date),
+		    datasets: [{
+			 label: 'Annually',
+			 data: yearly_diagnosed.map(item => item.total),
+			 borderWidth: 1
+		    }]
+		  },
+		  options: {
+		    scales: {
+			 y: {
+			   beginAtZero: true,
+			   ticks: {
+				stepSize: 1
+			 }
+			 }
+		    }
+		  }
+		});
+
+
+		
+		function handleChange(select) {
+			var selectedValue = select.value;
+			
+			if (selectedValue === "monthly") {
+			    monthly();
+			} else if (selectedValue === "yearly") {
+			    yearly();
+			}
+		 }
+		 
+		 function monthly() {
+			console.log('Monthly')
+			barChart.data.labels = monthly_diagnosed.map(item => item.date)
+			barChart.data.datasets[0].data = monthly_diagnosed.map(item => item.total)
+			barChart.data.datasets[0].label = 'Current Year (Monthly)'
+			barChart.update();
+		 }
+		 	
+		 function yearly() {
+			console.log('Yearly');
+			barChart.data.labels = yearly_diagnosed.map(item => item.date)
+			barChart.data.datasets[0].data = yearly_diagnosed.map(item => item.total)
+			barChart.data.datasets[0].label = 'Annually'
+			barChart.update();
+		 }
+
+
+		const pie = document.getElementById('pieChart');
+		
+		const pieChart = new Chart(pie, {
+		type: 'pie',
+		data: {
+			labels: [
+			  'Positive',
+			  'Negative',
+			],
+			datasets: [{
+			  label: 'Prediction',
+			  data: ['{{ positive_count }}', '{{ negative_count }}'],
+			  backgroundColor: [
+			    'rgb(255, 0, 0)',
+			    'rgb(0, 255, 0)',
+			  ],
+			  hoverOffset: 4
+			}]
+		   }
+		
+		});
+
+	   </script>
 </x-app-layout>
 {% endblock %}

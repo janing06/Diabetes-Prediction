@@ -13,6 +13,8 @@
 
 	<link type="text/css" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
 
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
      <style>
           @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Poppins&display=swap');
           *{
@@ -52,6 +54,8 @@
 
 	</main>
 
+     
+
 	<script src="{% static 'vendor/@popperjs/popper.min.js' %}"></script>
 	
 	<script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script>
@@ -62,11 +66,16 @@
      <script>
 
           function hideAlert(){
-               document.querySelector('.alert').style.display = 'none'
+               const hide = document.querySelector('.alert')
+
+               if(hide){
+                    hide.style.display = 'none'
+               }
            }
   
            setTimeout(hideAlert, 3000)
 
+           
           
      </script> 
 </body>

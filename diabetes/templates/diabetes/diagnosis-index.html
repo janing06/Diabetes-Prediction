@@ -10,7 +10,7 @@
 			<h2 class="h4">Diagnosis list</h2>
 		</div>
 		<div class="btn-toolbar mb-2 mb-md-0">
-			<a href="{% url 'diagnosis-create' %}" class="btn btn-sm btn-success d-inline-flex align-items-center text-white animate-up-1">
+			<a href="{% url 'diagnosis-create' %}" class="btn btn-sm btn-success shadow-lg d-inline-flex align-items-center text-white animate-up-1">
 				<i class="icon icon-xs me-2 bi bi-plus-lg"></i>
 				Add Diagnos Patient
 			</a>
@@ -21,8 +21,8 @@
 			<div class="col col-md-6 col-lg-3 col-xl-4">
 				<form action="" method="GET">
 					<div class="input-group me-2 me-lg-3 fmxw-400">
-						<input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search">
-						<span class="input-group-text">
+						<input type="text" name="search" value="{{ search }}" class="form-control shadow-lg" placeholder="Search">
+						<span class="input-group-text shadow-lg">
 							<button type="submit" class="btn btn-xs">
 								<i class="icon fs-6 bi bi-search"></i>
 							</button>
@@ -37,7 +37,7 @@
 	</div>
 	
 
-	<div class="card card-body border-0 shadow table-wrapper table-responsive mb-2">
+	<div class="card card-body border-0 shadow-lg table-wrapper table-responsive mb-2">
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -47,7 +47,6 @@
 					<th class="border-gray-200">Current Age</th>
 					<th class="border-gray-200">Current Weight (kg)</th>
 					<th class="border-gray-200">Prediction</th>
-					<th class="border-gray-200">Date Updated</th>
 					<th class="border-gray-200">Action</th>
 				</tr>
 			</thead>
@@ -61,8 +60,7 @@
 						<td valign="middle"><span class="fw-normal">{{ diagnos.date }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ diagnos.current_age }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ diagnos.current_weight }}</span></td>						
-						<td valign="middle"><span class="fw-normal">{{ diagnos.prediction_result }}</span></td>						
-						<td valign="middle"><span class="fw-normal">{{ diagnos.updated_at }}</span></td>						
+						<td valign="middle"><span class="fw-normal">{% if diagnos.prediction_result == True %}<span class="text-danger">Positive</span>{% else %}<span class="text-success">Negative</span>{% endif %}</span></td>						
 
 						
 						<td valign="middle">

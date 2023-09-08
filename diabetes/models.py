@@ -62,11 +62,16 @@ class Diagnosis(models.Model):
      test1 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 1')
      test2 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 2')
      test3 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 3')
-     prediction_result = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Prediction')
+     prediction_result = models.BooleanField(null=True, blank=True, verbose_name='Prediction')
      
      def save(self, *args, **kwargs):
           
-          self.prediction_result = self.test1 + self.test2 + self.test3
+          result = self.test1 + self.test2 + self.test3
+          
+          if result > 100:
+               self.prediction_result = True
+          else:
+               self.prediction_result = False
           
           super(Diagnosis, self).save(*args, **kwargs)
      

@@ -10,7 +10,15 @@ from django.core.paginator import Paginator
 from .forms import PatientFrom
 from decimal import Decimal
 from django.db.models import Q
+from django.utils import timezone
+from datetime import datetime
+import json
+from django.db.models.functions import TruncYear, TruncMonth
+from django.db.models import Count, F
+import calendar
 
+
+@login_required(login_url='/login')
 def diagnos_delete(request, id):
      diagnosis = get_object_or_404(Diagnosis, pk=id)
      
@@ -20,6 +28,8 @@ def diagnos_delete(request, id):
      messages.warning(request, 'Diagnosis Deleted Successfully.')
      return redirect('diagnosis')
 
+
+@login_required(login_url='/login')
 def diagnos_update(request, id):
      
      # diagnosis = get_object_or_404(Diagnosis, pk=id)
@@ -71,6 +81,8 @@ def diagnos_update(request, id):
 
           return render(request, 'diabetes/diagnosis-update.html',{'diagnosis': diagnosis})
 
+
+@login_required(login_url='/login')
 def patient_list_api(request):
      
      query = request.GET.get('q', '')
@@ -79,6 +91,8 @@ def patient_list_api(request):
 
      return JsonResponse(list(patients), safe=False)
 
+
+@login_required(login_url='/login')
 def diagnos_create(request):
 
      if request.method == 'POST':
@@ -117,6 +131,7 @@ def diagnos_create(request):
           return render(request, 'diabetes/diagnosis-create.html')
 
 
+@login_required(login_url='/login')
 def diagnosis_index(request):
      
      search = request.GET.get('search')
@@ -139,6 +154,7 @@ def diagnosis_index(request):
      return render(request, 'diabetes/diagnosis-index.html',{'diagnosis': diagnosis, 'search': search})
 
 
+@login_required(login_url='/login')
 def patient_delete(request, id):
      patient = get_object_or_404(Patient, pk=id)
      
@@ -151,6 +167,7 @@ def patient_delete(request, id):
      return redirect('patients')
 
 
+@login_required(login_url='/login')
 def patient_update(request, id):
     # Get the patient object you want to update
     patient = get_object_or_404(Patient, pk=id)
@@ -168,6 +185,7 @@ def patient_update(request, id):
         form = PatientFrom(instance=patient)
 
     return render(request, 'diabetes/patient-update.html', {'form': form,'patient': patient})
+
 
 @login_required(login_url='/login')
 def patient_create(request):
@@ -189,6 +207,7 @@ def patient_create(request):
      else:     
           form = PatientFrom()
           return render(request, 'diabetes/patient-create.html', {'form': form})
+
 
 @login_required(login_url='/login')
 def patient_index(request):
@@ -212,18 +231,6 @@ def patient_index(request):
 
 
 
-
-@login_required(login_url='/login')
-def index(request):
-     diagnos = Diagnosis.objects.all()
-     users = User.objects.all()
-     patients = Patient.objects.all()
-     return render(request, 'diabetes/index.html',{
-          'diagnos': diagnos,
-          'users': users,
-          'patients': patients,
-          })
-
 def login(request):
      if not request.user.is_authenticated:
           if request.method == "POST":
@@ -239,9 +246,11 @@ def login(request):
      else:
           return render(request, 'diabetes/index.html')
 
+
 @login_required(login_url='/login')
 def profile(request):
      return render(request, 'diabetes/profile.html')
+
 
 @login_required
 def update_password(request):
@@ -267,3 +276,76 @@ def update_password(request):
                messages.success(request, 'Your password was successfully updated!')
                auth_login(request, user)  # Log the user back in
                return redirect('profile')  # Change this to your profile view or another suitable URL
+
+
+@login_required(login_url='/login')
+def index(request):
+     
+     current_year = datetime.now().year
+     
+     print(current_year)
+     
+     diagnos = Diagnosis.objects.all()
+     current_year_diagnoses = Diagnosis.objects.filter(date__year=current_year)
+     
+     yearly_diagnosed = Diagnosis.objects.all().annotate(year=TruncYear('date')).values('year').annotate(total=Count('id')).order_by('year')
+
+     data_yearly = [{'date': item['year'].year, 'total': item['total']} for item in yearly_diagnosed]
+
+     json_yearly_diagnosed = json.dumps(data_yearly)
+     
+     # print(json_yearly_diagnosed)
+     
+     
+     monthly_this_year_diagnosed = Diagnosis.objects.filter(date__year=current_year).annotate(month=TruncMonth('date')).values('month').annotate(total=Count('id')).order_by('month')
+
+     data_monthly_this_year = [{'date': item['month'].strftime('%B'), 'total': item['total']} for item in monthly_this_year_diagnosed]
+     
+     all_months = [calendar.month_name[i] for i in range(1, 13)]
+     
+     print(all_months)
+     
+     
+     # Extract the month names from data_monthly_this_year
+     existing_months = [item['date'] for item in data_monthly_this_year]
+
+     # Check which months are not present
+     missing_months = [month for month in all_months if month not in existing_months]
+
+     print("Missing Months:")
+     print(missing_months)
+
+     # Add missing months to data_monthly_this_year with total set to zero
+     for month in missing_months:
+          data_monthly_this_year.append({'date': month, 'total': 0})
+          
+     data_monthly_this_year = sorted(data_monthly_this_year, key=lambda x: list(calendar.month_name).index(x['date']))
+               
+
+
+     json_monthly_this_year_diagnosed = json.dumps(data_monthly_this_year)
+     
+     print(json_monthly_this_year_diagnosed)
+     
+     
+     positive_count = Diagnosis.objects.filter(prediction_result=True).count()
+     negative_count = Diagnosis.objects.filter(prediction_result=False).count()
+     
+     print(f"Postive count: {positive_count}\nNegative count: {negative_count}")
+     
+     
+   
+     
+     users = User.objects.all()
+     patients = Patient.objects.all()
+     
+     return render(request, 'diabetes/index.html',{
+          'diagnos': diagnos,
+          'users': users,
+          'patients': patients,
+          'current_year_diagnoses': current_year_diagnoses,
+          'json_yearly_diagnosed': json_yearly_diagnosed,
+          'json_monthly_this_year_diagnosed': json_monthly_this_year_diagnosed,
+          'positive_count': positive_count,
+          'negative_count': negative_count,
+          })
