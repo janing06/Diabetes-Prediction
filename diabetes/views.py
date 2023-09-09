@@ -172,7 +172,6 @@ def patient_update(request, id):
     # Get the patient object you want to update
     patient = get_object_or_404(Patient, pk=id)
     
-
     if request.method == 'POST':
         form = PatientFrom(request.POST, instance=patient)
         if form.is_valid():
@@ -283,7 +282,6 @@ def index(request):
      
      current_year = datetime.now().year
      
-     print(current_year)
      
      diagnos = Diagnosis.objects.all()
      current_year_diagnoses = Diagnosis.objects.filter(date__year=current_year)
@@ -294,7 +292,6 @@ def index(request):
 
      json_yearly_diagnosed = json.dumps(data_yearly)
      
-     # print(json_yearly_diagnosed)
      
      
      monthly_this_year_diagnosed = Diagnosis.objects.filter(date__year=current_year).annotate(month=TruncMonth('date')).values('month').annotate(total=Count('id')).order_by('month')
@@ -303,7 +300,6 @@ def index(request):
      
      all_months = [calendar.month_name[i] for i in range(1, 13)]
      
-     print(all_months)
      
      
      # Extract the month names from data_monthly_this_year
@@ -312,8 +308,7 @@ def index(request):
      # Check which months are not present
      missing_months = [month for month in all_months if month not in existing_months]
 
-     print("Missing Months:")
-     print(missing_months)
+
 
      # Add missing months to data_monthly_this_year with total set to zero
      for month in missing_months:
@@ -325,13 +320,15 @@ def index(request):
 
      json_monthly_this_year_diagnosed = json.dumps(data_monthly_this_year)
      
-     print(json_monthly_this_year_diagnosed)
      
      
      positive_count = Diagnosis.objects.filter(prediction_result=True).count()
      negative_count = Diagnosis.objects.filter(prediction_result=False).count()
      
-     print(f"Postive count: {positive_count}\nNegative count: {negative_count}")
+     positive_count_yearly = Diagnosis.objects.filter(prediction_result=True, date__year=current_year).count()
+     negative_count_yearly = Diagnosis.objects.filter(prediction_result=False, date__year=current_year).count()
+     
+     print(positive_count_yearly, negative_count_yearly)
      
      
    
@@ -348,4 +345,7 @@ def index(request):
           'json_monthly_this_year_diagnosed': json_monthly_this_year_diagnosed,
           'positive_count': positive_count,
           'negative_count': negative_count,
+          'positive_count_yearly': positive_count_yearly,
+          'negative_count_yearly': negative_count_yearly,
+          'current_year': current_year,
           })

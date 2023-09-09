@@ -121,28 +121,32 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-sm-12 col-md-12 col-xl-12 mb-4">
+		<div class="col-12 col-sm-12 col-md-12 col-xl-8 mb-4">
 			<div class="card border-0 shadow-lg">
 				
 				<div class="card-body">
-					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="handleChange(this)" style="width: 220px;">
+					<select class="form-select me-auto" name="period" id="periodSelect" onchange="handleChange(this)" style="width: 220px;">
 						<option value="yearly">Annually</option>
-						<option value="monthly">Current Year (Monthly)</option>
+						<option value="monthly">Current Year ({{ current_year }})</option>
 					 </select>
 					<div>
-						<canvas id="barChart" height="105"></canvas>
+						<canvas id="barChart"></canvas>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-12 col-sm-6 col-xl-4 mb-4">
-			<div class="card border-0 shadow-lg	">
-				<div class="card-header text-center"><h5 class="fw-extrabold">PREDICTION</span></div>
+		<div class="col-4 col-sm-4 col-xl-4 mb-4">
+			<div class="card border-0 shadow-lg">
 				<div class="card-body">
+					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="pieChartSelection(this)">
+						<option value="total">Total</option>
+						<option value="currentYear">Current Year ({{ current_year }})</option>
+					 </select>
 					<div>
 						<canvas id="pieChart"></canvas>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -192,6 +196,8 @@
 			    yearly();
 			}
 		 }
+
+		 console.log('{{ pis }}')
 		 
 		 function monthly() {
 			console.log('Monthly')
@@ -199,6 +205,7 @@
 			barChart.data.datasets[0].data = monthly_diagnosed.map(item => item.total)
 			barChart.data.datasets[0].label = 'Current Year (Monthly)'
 			barChart.update();
+
 		 }
 		 	
 		 function yearly() {
@@ -216,21 +223,37 @@
 		type: 'pie',
 		data: {
 			labels: [
-			  'Positive',
-			  'Negative',
+			  'Positive ({{ positive_count }})',
+			  'Negative ({{ negative_count }})',
 			],
 			datasets: [{
 			  label: 'Prediction',
 			  data: ['{{ positive_count }}', '{{ negative_count }}'],
 			  backgroundColor: [
-			    'rgb(255, 0, 0)',
-			    'rgb(0, 255, 0)',
+			    'rgb(255, 20, 50)',
+			    'rgb(20, 255, 50)',
 			  ],
 			  hoverOffset: 4
 			}]
 		   }
 		
 		});
+
+		function pieChartSelection(select) {
+			var selectedValue = select.value;
+			
+			if (selectedValue === "total") {
+				pieChart.data.datasets[0].data = ['{{ positive_count }}', '{{ negative_count }}']
+				pieChart.data.labels[0] = ['Positive ({{ positive_count }})']
+				pieChart.data.labels[1] = ['Negative ({{ negative_count }})']
+				pieChart.update()
+			} else if (selectedValue === "currentYear") {
+				pieChart.data.datasets[0].data = ['{{ positive_count_yearly }}', '{{ negative_count_yearly }}']
+				pieChart.data.labels[0] = ['Positive ({{ positive_count_yearly }})']
+				pieChart.data.labels[1] = ['Negative ({{ negative_count_yearly }})']
+				pieChart.update()
+			}
+		 }
 
 	   </script>
 </x-app-layout>

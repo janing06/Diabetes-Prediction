@@ -102,6 +102,12 @@
 								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" value="{{ diagnosis.test3 }}" placeholder="Test 3">
 							</div>
 						</div>
+						<div class="col-md-12 mb-3">
+							<div class="form-group">
+								<label for="test3">Prediction Result</label>
+								<input class="form-control {% if diagnosis.prediction_result == True %}text-white bg-danger{% else %}text-white bg-success{% endif %}" type="text" name="" readonly required step="0.01" id="test3" value="{% if diagnosis.prediction_result == True %}Positive{% else %}Negative{% endif %}" placeholder="">
+							</div>
+						</div>
                               <div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="test3">Date Created</label>
@@ -115,12 +121,14 @@
 							</div>
 						</div>
 
+
 					</div>
 
 					<div class="mt-3">
 						<button class="btn btn-gray-800 mt-2 animate-up-2" type="submit"><i class="icon icon-xs me-2 bi bi-pencil-square"></i> Update</button>
 					</div>
 
+					
 				</form>
 
 			</div>

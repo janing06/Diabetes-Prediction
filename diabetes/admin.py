@@ -1,7 +1,11 @@
 from django.contrib import admin
 from diabetes.models import ExtendedUserModel, Barangay, Patient, Diagnosis
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin
+from import_export.admin import ExportMixin
+from .resources import DiagnosisResource, PatientResource
+
+admin.site.unregister(Group)
 
 class ExtendedUserInline(admin.StackedInline):
     model = ExtendedUserModel
@@ -32,17 +36,27 @@ class BarangayAdmin(admin.ModelAdmin):
     ordering = ['name']
     search_fields = ['name']
     
+    
 @admin.register(Patient)
-class PatientAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name', 'middle_name', 'last_name', 'address', 'sex']
+class PatientAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = PatientResource
+    
+    list_display = ['added_by','first_name', 'middle_name', 'last_name', 'address', 'sex']
     ordering = ['-created_at']
+    list_per_page = 10
     readonly_fields = ['custom_patient_id', 'created_at', 'updated_at']
     search_fields = ['custom_patient_id']
     autocomplete_fields = ['barangay']
 
+
 @admin.register(Diagnosis)
-class DiagnosisAdmin(admin.ModelAdmin):
+class DiagnosisAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = DiagnosisResource
+
+    list_per_page = 10
     list_display = ['patient', 'current_age', 'current_weight', 'prediction_result']
     autocomplete_fields = ['patient']
     readonly_fields = ['prediction_result']
     ordering = ['-created_at']
+    search_fields = ['patient__custom_patient_id', 'prediction_result']
+    

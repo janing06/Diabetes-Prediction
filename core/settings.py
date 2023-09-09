@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'diabetes',
     'login_history',
+    'import_export',
 ]
 
 MIDDLEWARE = [
