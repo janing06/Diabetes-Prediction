@@ -40,7 +40,9 @@
 
 			<div class="card card-body border-0 shadow-lg mb-4">
 				<h2 class="h5 mb-4">Diagnosis information</h2>
-
+				{% if diagnosis.added_by != request.user %}
+				<p class="small"><span class="text-danger">Note</span>: Only the one that added this can edit or delete</p>
+				{% endif %}
 				<form method="POST" action="">
 
                          {% csrf_token %}
@@ -50,8 +52,8 @@
 						<div class="col-md-8 mb-3">
                                    <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" value="{{ diagnosis.patient.id }}" readonly id="patientID" style="display: none;"></label>
                                    <div class="input-group" id="patient">
-                                        <input type="text" class="form-control" placeholder="Search ID" name="" id="autocomplete-input">
-                                        <select class="form-select" name="" id="suggestions-list">
+                                        <input type="text" class="form-control" {% if diagnosis.added_by != request.user %}readonly{% endif %} placeholder="Search ID" name="" id="autocomplete-input">
+                                        <select class="form-select" {% if diagnosis.added_by != request.user %}disabled{% endif %} name="" id="suggestions-list">
                                         </select>
                                         <input type="text" class="form-control" value="{{ diagnosis.patient.custom_patient_id }}" placeholder="" required readonly name="" id="selectedID">
                                    </div>
@@ -59,47 +61,47 @@
                               <div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="date">Date<span class="text-danger">*</span></label>
-								<input class="form-control" name="date" required type="date" id="date" value="{{ diagnosis.date|date:'Y-m-d' }}">
+								<input class="form-control" name="date" required type="date" id="date" value="{{ diagnosis.date|date:'Y-m-d' }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-12 mb-3">
 							<div class="form-group">
 								<label for="">Description</label>
                                         
-                                        <textarea class="form-control" name="description" placeholder="Description.." aria-label="With textarea">{{ diagnosis.description }}</textarea> 
+                                        <textarea class="form-control" name="description" placeholder="Description.." aria-label="With textarea" {% if diagnosis.added_by != request.user %}readonly{% endif %}>{{ diagnosis.description }}</textarea> 
                                    </div>
 						</div>
 						
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="age">Current Age<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="current_age" required id="age" value="{{ diagnosis.current_age }}" placeholder="Age">
+								<input class="form-control" type="number" name="current_age" required id="age" value="{{ diagnosis.current_age }}" placeholder="Age" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 
                               <div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="weight">Current Weight (kg)<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="current_weight" required step="0.01" value="{{ diagnosis.current_weight }}" id="weight" placeholder="Weight">
+								<input class="form-control" type="number" name="current_weight" required step="0.01" value="{{ diagnosis.current_weight }}" id="weight" placeholder="Weight" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test1">Test 1<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test1" required step="0.01" id="test1" value="{{ diagnosis.test1 }}" placeholder="Test 1">
+								<input class="form-control" type="number" name="test1" required step="0.01" id="test1" value="{{ diagnosis.test1 }}" placeholder="Test 1" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test2">Test 2<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test2" required step="0.01" id="test2" value="{{ diagnosis.test2 }}" placeholder="Test 2">
+								<input class="form-control" type="number" name="test2" required step="0.01" id="test2" value="{{ diagnosis.test2 }}" placeholder="Test 2" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
                               <div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test3">Test 3<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" value="{{ diagnosis.test3 }}" placeholder="Test 3">
+								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" value="{{ diagnosis.test3 }}" placeholder="Test 3" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-12 mb-3">
@@ -120,12 +122,18 @@
 								<input class="form-control" type="text" name="" readonly step="0.01" id="test3" value="{{ diagnosis.updated_at }}" placeholder="Test 3">
 							</div>
 						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-group">
+								<label for="test3">Added by</label>
+								<input class="form-control" type="text" name="" readonly step="0.01" id="test3" value="{{ diagnosis.added_by.first_name|title }} {{ diagnosis.added_by.last_name|title }}" placeholder="Test 3">
+							</div>
+						</div>
 
 
 					</div>
 
 					<div class="mt-3">
-						<button class="btn btn-gray-800 mt-2 animate-up-2" type="submit"><i class="icon icon-xs me-2 bi bi-pencil-square"></i> Update</button>
+						<button class="btn btn-gray-800 mt-2 animate-up-2 {% if diagnosis.added_by != request.user %}disabled{% endif %}" type="submit"><i class="icon icon-xs me-2 bi bi-pencil-square"></i> Update</button>
 					</div>
 
 					
@@ -138,7 +146,7 @@
 				
 				<div class="row">
 					<div class="col-md-3">
-						<button class="btn btn-danger mt-2 animate-up-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="icon icon-xs me-2 bi bi-trash"></i> Delete</button>
+						<button class="btn btn-danger mt-2 animate-up-2 {% if diagnosis.added_by != request.user %}disabled{% endif %}" type="button" data-bs-toggle="modal" data-bs-target="#modal-default"><i class="icon icon-xs me-2 bi bi-trash"></i> Delete</button>
 					</div>
 				</div>
 

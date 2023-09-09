@@ -52,6 +52,7 @@ class Patient(models.Model):
 
      
 class Diagnosis(models.Model):
+     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
      patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
      description = models.TextField(blank=True, null=True)
      date = models.DateField()

@@ -113,6 +113,7 @@ def diagnos_create(request):
           test3 = Decimal(request.POST.get('test3'))
           
           Diagnosis.objects.create(
+               added_by=request.user,
                patient=patient,
                date=date,
                description=description,
