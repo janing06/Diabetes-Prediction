@@ -1,11 +1,15 @@
 {% extends 'diabetes/guess.html' %}
-
+{% load static %}
 {% block guess %}
 
      <x-guest-layout>
 
           <div class="text-center text-md-center  mt-md-0">
-               <h1 class="mb-0 h3">Login</h1>
+               <img src="{% static 'img/brand/diabetes-logo.png' %}" width="100" alt="">
+               <br>
+               <span class="lead" style="text-align: center; font-size: 2rem; font-weight: bold; color: #5e5e5e">Staff</span>
+               <br>
+               <span style="font-size: 20px; font-weight:bold ; color: #4a6cb6">Naval Diabetes</span>
           </div>
           
                {% if messages %}

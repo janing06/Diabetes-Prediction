@@ -20,7 +20,7 @@
 						<div class="col-md-8 mb-3">
                                    <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" readonly id="patientID" style="display: none;"></label>
                                    <div class="input-group" id="patient">
-                                        <input type="text" class="form-control" placeholder="Search ID" name="" id="autocomplete-input">
+                                        <input type="text" class="form-control" placeholder="Search ID..." name="" id="autocomplete-input">
                                         <select class="form-select" name="" id="suggestions-list">
                                         </select>
                                         <input type="text" class="form-control" placeholder="" required readonly name="" id="selectedID">
@@ -37,45 +37,62 @@
 								<label for="">Description</label>
                                         <textarea class="form-control" name="description" placeholder="Description.."  aria-label="With textarea"></textarea> 
                                    </div>
-						</div>
-						
+						</div>	
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="age">Current Age<span class="text-danger">*</span></label>
 								<input class="form-control" type="number" name="current_age" required id="age" placeholder="Age">
 							</div>
 						</div>
-
                               <div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="weight">Current Weight (kg)<span class="text-danger">*</span></label>
 								<input class="form-control" type="number" name="current_weight" required step="0.01" id="weight" placeholder="Weight">
 							</div>
 						</div>
-						
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test1">Test 1<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test1" required step="0.01" id="test1" placeholder="Test 1">
+								<label for="test1">Pregnancies (No.)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_pregnancies" id="test1" placeholder="Pregnancies">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test2">Test 2<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test2" required step="0.01" id="test2" placeholder="Test 2">
+								<label for="test2">Glocuse<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_glucose" id="test2" placeholder="Glocuse">
 							</div>
 						</div>
                               <div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test3">Test 3<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" placeholder="Test 3">
+								<label for="test3">Blood Pressure<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_blood_pressure" id="test3" placeholder="Blood Pressure">
 							</div>
 						</div>
-
-						
-
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Skin Thickness<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_skin_thickness" id="test3" placeholder="Skin Thickness">
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Insulin<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_insulin"  id="test3" placeholder="Insulin">
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">BMI (Body Mass Index)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_bmi" required step="0.01" id="test3" placeholder="BMI">
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Diabets Pedigree Function<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_diabetes_pedigree_function" required step="0.001" id="test3" placeholder="Diabets Pedigree Function">
+							</div>
+						</div>
 					</div>
-
 					<div class="mt-3">
 						<button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Save</button>
 					</div>
@@ -96,6 +113,20 @@
           const suggestionsList = document.getElementById('suggestions-list');
           const selectedID = document.getElementById('selectedID');
           const patientID = document.getElementById('patientID');
+
+		function checkValidation(){
+			if(selectedID.value === ''){
+				selectedID.classList.add('is-invalid')
+				selectedID.classList.remove('is-valid')
+			}else{
+				selectedID.classList.add('is-valid')
+				selectedID.classList.remove('is-invalid')
+			}
+		}
+
+		window.addEventListener('load', checkValidation)
+
+		document.addEventListener('click', checkValidation)
 
 		suggestionsList.addEventListener('click', () => {
 			const selectedOption = suggestionsList.options[suggestionsList.selectedIndex];

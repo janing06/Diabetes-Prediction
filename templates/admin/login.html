@@ -5,30 +5,34 @@
 {% block extrastyle %}
 {{ block.super }}
 <style>
-#header {
-  background-color: transparent !important;
-  
-}
+  #header {
+    background-color: transparent !important;
+  }
+
+  /* Set the background image */
+  body {
+    background-image: url("{% static 'img/illustrations/background.jpg' %}") !important;
+    background-size: 100% 100% !important;
+
+  }
 </style>
 {% endblock %}
 
 {% block branding %}
 <div>
-  <center>
-  <img src="{% static 'img/brand/diabetes-logo.png' %}" width="100" alt="">
-    
-  </center>
+  <center  style="margin:0; padding:0;">
+    <img src="{% static 'img/brand/diabetes-logo.png' %}" width="100" alt="">
+
+
+<center>
   <span class="lead" style="text-align: center; font-size: 2rem; font-weight: bold; color: #5e5e5e">Administration</span>
-  
+<br>
+  <span style="font-size: 20px; font-weight:bold ; color: #4a6cb6">Naval Diabetes</span>
+</center>
+  </center>
 </div>
-
-
-
 {% endblock %}
 
 {% block content_title %}
-<center>
-  
-  <span style="font-size: 20px; font-weight:bold ; color: #4a6cb6">Naval Diabetes</span>
-</center>
+
 {% endblock %}

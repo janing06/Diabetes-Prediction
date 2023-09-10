@@ -43,9 +43,9 @@
 				<tr>
 				
 					<th class="border-gray-200">Patient ID</th>
-					<th class="border-gray-200">First name</th>
-					<th class="border-gray-200">Last name</th>
+					<th class="border-gray-200">Patient name</th>
 					<th class="border-gray-200">Sex</th>
+					<th class="border-gray-200">Barangay</th>
 					<th class="border-gray-200">Added by</th>
 		
 					<th class="border-gray-200">Action</th>
@@ -58,9 +58,9 @@
 						<td valign="middle">
 							<span class="fw-normal">{{ patient.custom_patient_id }}</span>
 						</td>
-						<td valign="middle"><span class="fw-normal">{{ patient.first_name|title }}</span></td>
-						<td valign="middle"><span class="fw-normal">{{ patient.last_name|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.first_name|title }} {{ patient.last_name|title }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ patient.sex|title }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ patient.barangay.name|title }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ patient.added_by.first_name|title }} {{ patient.added_by.last_name|title }}</span></td>
 						
 

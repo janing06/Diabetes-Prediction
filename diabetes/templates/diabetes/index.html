@@ -121,22 +121,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-sm-12 col-md-12 col-xl-8 mb-4">
-			<div class="card border-0 shadow-lg">
-				
-				<div class="card-body">
-					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="handleChange(this)" style="width: 220px;">
-						<option value="yearly">Annually</option>
-						<option value="monthly">Current Year ({{ current_year }})</option>
-					 </select>
-					<div>
-						<canvas id="barChart"></canvas>
-					</div>
-				</div>
-			</div>
-		</div>
+	
 
-		<div class="col-4 col-sm-4 col-xl-4 mb-4">
+		<div class="col-6 col-md-6 col-sm-6 col-xl-4 mb-4">
 			<div class="card border-0 shadow-lg">
 				<div class="card-body">
 					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="pieChartSelection(this)">
@@ -151,6 +138,20 @@
 			</div>
 		</div>
         
+		<div class="col-12 col-sm-12 col-md-12 col-xl-8 mb-4">
+			<div class="card border-0 shadow-lg">
+				
+				<div class="card-body">
+					<select class="form-select ms-auto" name="period" id="periodSelect" onchange="handleChange(this)" style="width: 220px;">
+						<option value="yearly">Annually</option>
+						<option value="monthly">Current Year ({{ current_year }})</option>
+					 </select>
+					<div>
+						<canvas id="barChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 	<script>
@@ -230,8 +231,8 @@
 			  label: 'Prediction',
 			  data: ['{{ positive_count }}', '{{ negative_count }}'],
 			  backgroundColor: [
-			    'rgb(255, 20, 50)',
-			    'rgb(20, 255, 50)',
+			    'rgba(225, 0, 0, 0.5',
+			    'rgba(0, 255, 0, 0.5)',
 			  ],
 			  hoverOffset: 4
 			}]

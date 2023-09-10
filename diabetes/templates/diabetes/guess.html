@@ -4,24 +4,36 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Login</title>
+     <title>Log in | Staff</title>
 
      <link type="text/css" href="{% static 'theme/volt.css' %}" rel="stylesheet">
 
-     <link href="{% static 'img/brand/test.svg' %}" rel="shortcut icon">
+     <link href="{% static 'img/brand/diabetes-logo.png' %}" rel="shortcut icon">
 
 
      <link type="text/css" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+     <style>
+          @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Poppins&display=swap');
+          *{
+               
+              font-family: 'Poppins';
+          }
+          body{
+               background-image: url("{% static 'img/illustrations/background.jpg' %}");
+               background-size: 100% 100%;
+          }
+     </style>
 </head>
 <body>
-     <main>
+     <main >
 
           <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
                <div class="container">
                   
                     <div class="row justify-content-center form-bg-image" >
                          <div class="col-12 d-flex align-items-center justify-content-center">
-                              <div class="bg-white shadow-lg border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                              <div class="bg-white shadow-lg border-0 rounded border-light p-4 p-lg-4  w-100 fmxw-500">
                                    {% block guess %}
 
                                    {% endblock %}
@@ -30,7 +42,7 @@
                     </div>
                </div>
           </section>
-<br><br>
+
      </main>
      
      <script src="{% static 'vendor/@popperjs/popper.min.js' %}"></script>
@@ -42,7 +54,11 @@
      <script>
 
           function hideAlert(){
-               document.querySelector('.alert').style.display = 'none'
+               const hide = document.querySelector('.alert')
+
+               if(hide){
+                    hide.style.display = 'none'
+               }
            }
   
            setTimeout(hideAlert, 3000)

@@ -1,6 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from django.conf import settings
+from pathlib import Path
+import joblib
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
+from sklearn.metrics import classification_report
+
+
 
 class ExtendedUserModel(models.Model):
      user = models.OneToOneField(User, on_delete=models.CASCADE);
@@ -60,20 +71,31 @@ class Diagnosis(models.Model):
      updated_at = models.DateTimeField(auto_now=True)
      current_age = models.IntegerField(verbose_name='Current Age')
      current_weight = models.DecimalField(max_digits=5, decimal_places=1, verbose_name='Current Weight (kg)')
-     test1 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 1')
-     test2 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 2')
-     test3 = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Test 3')
+     test_pregnancies = models.IntegerField(verbose_name='Pregnancies')
+     test_glucose = models.IntegerField(verbose_name='Glocuse')
+     test_blood_pressure = models.IntegerField(verbose_name='Blood Pressure')
+     test_skin_thickness = models.IntegerField(verbose_name='Skin Thickness')
+     test_insulin = models.IntegerField(verbose_name='Insulin')
+     test_bmi = models.DecimalField(decimal_places=1, max_digits=5 ,verbose_name='BMI')
+     test_diabetes_pedigree_function = models.DecimalField(decimal_places=3, max_digits=5 ,verbose_name='Diabetes Pedigree Function')
      prediction_result = models.BooleanField(null=True, blank=True, verbose_name='Prediction')
      
      def save(self, *args, **kwargs):
+
+          model_file_path = Path(settings.BASE_DIR) / 'diabetes' / 'trained_model_diabetes' / 'diabetes-prediction-model.pkl'
           
-          result = self.test1 + self.test2 + self.test3
+          model = joblib.load(model_file_path)
           
-          if result > 100:
+          result = model.predict([[self.test_pregnancies, self.test_glucose, self.test_blood_pressure, self.test_skin_thickness, self.test_insulin, self.test_bmi, self.test_diabetes_pedigree_function, self.current_age]])
+
+          print(result[0])
+          
+          if result[0] == 1:
                self.prediction_result = True
-          else:
+          elif result[0] == 0:
                self.prediction_result = False
-          
+          else:
+               self.prediction_result = ''
           super(Diagnosis, self).save(*args, **kwargs)
      
      def __str__(self):

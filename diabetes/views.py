@@ -18,6 +18,7 @@ from django.db.models import Count, F
 import calendar
 
 
+
 @login_required(login_url='/login')
 def diagnos_delete(request, id):
      diagnosis = get_object_or_404(Diagnosis, pk=id)
@@ -54,9 +55,13 @@ def diagnos_update(request, id):
           description = request.POST.get('description')
           current_age = int(request.POST.get('current_age'))
           current_weight = Decimal(request.POST.get('current_weight'))
-          test1 = Decimal(request.POST.get('test1'))
-          test2 = Decimal(request.POST.get('test2'))
-          test3 = Decimal(request.POST.get('test3'))
+          test_pregnancies = int(request.POST.get('test_pregnancies'))
+          test_glucose = int(request.POST.get('test_glucose'))
+          test_blood_pressure = int(request.POST.get('test_blood_pressure'))
+          test_skin_thickness = int(request.POST.get('test_skin_thickness'))
+          test_insulin = int(request.POST.get('test_insulin'))
+          test_bmi = Decimal(request.POST.get('test_bmi'))
+          test_diabetes_pedigree_function = Decimal(request.POST.get('test_diabetes_pedigree_function'))
           
           # Update the existing diagnosis object
           diagnosis.patient = patient
@@ -64,9 +69,13 @@ def diagnos_update(request, id):
           diagnosis.description = description
           diagnosis.current_age = current_age
           diagnosis.current_weight = current_weight
-          diagnosis.test1 = test1
-          diagnosis.test2 = test2
-          diagnosis.test3 = test3
+          diagnosis.test_pregnancies = test_pregnancies
+          diagnosis.test_glucose = test_glucose
+          diagnosis.test_blood_pressure = test_blood_pressure
+          diagnosis.test_skin_thickness = test_skin_thickness
+          diagnosis.test_insulin = test_insulin
+          diagnosis.test_bmi = test_bmi
+          diagnosis.test_diabetes_pedigree_function = test_diabetes_pedigree_function
           diagnosis.save()
           
      
@@ -108,9 +117,13 @@ def diagnos_create(request):
           description = request.POST.get('description')
           current_age = int(request.POST.get('current_age'))
           current_weight = Decimal(request.POST.get('current_weight'))
-          test1 = Decimal(request.POST.get('test1'))
-          test2 = Decimal(request.POST.get('test2'))
-          test3 = Decimal(request.POST.get('test3'))
+          test_pregnancies = int(request.POST.get('test_pregnancies'))
+          test_glucose = int(request.POST.get('test_glucose'))
+          test_blood_pressure = int(request.POST.get('test_blood_pressure'))
+          test_skin_thickness = int(request.POST.get('test_skin_thickness'))
+          test_insulin = int(request.POST.get('test_insulin'))
+          test_bmi = Decimal(request.POST.get('test_bmi'))
+          test_diabetes_pedigree_function = Decimal(request.POST.get('test_diabetes_pedigree_function'))
           
           Diagnosis.objects.create(
                added_by=request.user,
@@ -119,9 +132,13 @@ def diagnos_create(request):
                description=description,
                current_age=current_age,
                current_weight=current_weight,
-               test1=test1,
-               test2=test2,
-               test3=test3
+               test_pregnancies=test_pregnancies,
+               test_glucose=test_glucose,
+               test_blood_pressure=test_blood_pressure,
+               test_skin_thickness=test_skin_thickness,
+               test_insulin=test_insulin,
+               test_bmi=test_bmi,
+               test_diabetes_pedigree_function=test_diabetes_pedigree_function,
           )
           
      
@@ -215,7 +232,7 @@ def patient_index(request):
      search = request.GET.get('search')
      
      if search:
-          queryset = Patient.objects.filter(Q(custom_patient_id__icontains = search) | Q(first_name__icontains = search) | Q(last_name__icontains = search) | Q(added_by__first_name__icontains=search) | Q(added_by__last_name__icontains=search)).order_by('-created_at')
+          queryset = Patient.objects.filter(Q(custom_patient_id__icontains = search) | Q(first_name__icontains = search) | Q(last_name__icontains = search) | Q(added_by__first_name__icontains=search) | Q(added_by__last_name__icontains=search) | Q(barangay__name__icontains=search)).order_by('-created_at')
      else:
           search = ''
           queryset = Patient.objects.all().order_by('-created_at')
@@ -328,14 +345,19 @@ def index(request):
      
      positive_count_yearly = Diagnosis.objects.filter(prediction_result=True, date__year=current_year).count()
      negative_count_yearly = Diagnosis.objects.filter(prediction_result=False, date__year=current_year).count()
-     
-     print(positive_count_yearly, negative_count_yearly)
-     
-     
-   
+          
      
      users = User.objects.all()
      patients = Patient.objects.all()
+     
+
+     from django.db.models import Min
+     
+     min_age = Diagnosis.objects.aggregate(min_age=Min('current_age'))
+
+     print(min_age)
+
+
      
      return render(request, 'diabetes/index.html',{
           'diagnos': diagnos,

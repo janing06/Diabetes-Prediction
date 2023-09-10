@@ -1,0 +1,7 @@
+     test_pregnancies = models.IntegerField(verbose_name='Pregnancies')
+     test_glucose = models.IntegerField(verbose_name='Glocuse')
+     test_blood_pressure = models.IntegerField(verbose_name='Test 3')
+     test_skin_thickness = models.IntegerField(verbose_name='Skin Thickness')
+     test_insulin = models.IntegerField(verbose_name='Insulin')
+     test_bmi = models.DecimalField(decimal_places=1, max_digits=5 ,verbose_name='BMI')
+     test_diabetes_pedigree_function = models.DecimalField(decimal_places=3, max_digits=5 ,verbose_name='Diabetes Pedigree Function')

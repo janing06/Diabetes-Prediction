@@ -52,7 +52,7 @@
 						<div class="col-md-8 mb-3">
                                    <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" value="{{ diagnosis.patient.id }}" readonly id="patientID" style="display: none;"></label>
                                    <div class="input-group" id="patient">
-                                        <input type="text" class="form-control" {% if diagnosis.added_by != request.user %}readonly{% endif %} placeholder="Search ID" name="" id="autocomplete-input">
+                                        <input type="text" class="form-control" {% if diagnosis.added_by != request.user %}readonly{% endif %} placeholder="Search ID..." name="" id="autocomplete-input">
                                         <select class="form-select" {% if diagnosis.added_by != request.user %}disabled{% endif %} name="" id="suggestions-list">
                                         </select>
                                         <input type="text" class="form-control" value="{{ diagnosis.patient.custom_patient_id }}" placeholder="" required readonly name="" id="selectedID">
@@ -88,20 +88,44 @@
 						
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test1">Test 1<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test1" required step="0.01" id="test1" value="{{ diagnosis.test1 }}" placeholder="Test 1" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+								<label for="test1">Pregnancies (No.)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_pregnancies" id="test1" placeholder="Pregnancies" value="{{ diagnosis.test_pregnancies }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test2">Test 2<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test2" required step="0.01" id="test2" value="{{ diagnosis.test2 }}" placeholder="Test 2" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+								<label for="test2">Glocuse<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_glucose" id="test2" placeholder="Glocuse" value="{{ diagnosis.test_glucose }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
                               <div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test3">Test 3<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test3" required step="0.01" id="test3" value="{{ diagnosis.test3 }}" placeholder="Test 3" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+								<label for="test3">Blood Pressure<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_blood_pressure" id="test3" placeholder="Blood Pressure" value="{{ diagnosis.test_blood_pressure }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Skin Thickness<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_skin_thickness" id="test3" placeholder="Skin Thickness" value="{{ diagnosis.test_skin_thickness }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Insulin<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_insulin"  id="test3" placeholder="Insulin" value="{{ diagnosis.test_insulin }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">BMI (Body Mass Index)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_bmi" required step="0.01" id="test3" placeholder="BMI" value="{{ diagnosis.test_bmi }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-4 mb-3">
+							<div class="form-group">
+								<label for="test3">Diabets Pedigree Function<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_diabetes_pedigree_function" required step="0.001" id="test3" placeholder="Diabets Pedigree Function" value="{{ diagnosis.test_diabetes_pedigree_function }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-12 mb-3">
@@ -124,7 +148,7 @@
 						</div>
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
-								<label for="test3">Added by</label>
+								<label for="test3">Added By</label>
 								<input class="form-control" type="text" name="" readonly step="0.01" id="test3" value="{{ diagnosis.added_by.first_name|title }} {{ diagnosis.added_by.last_name|title }}" placeholder="Test 3">
 							</div>
 						</div>
