@@ -52,9 +52,7 @@
 						<div class="col-md-8 mb-3">
                                    <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" value="{{ diagnosis.patient.id }}" readonly id="patientID" style="display: none;"></label>
                                    <div class="input-group" id="patient">
-                                        <input type="text" class="form-control" {% if diagnosis.added_by != request.user %}readonly{% endif %} placeholder="Search ID..." name="" id="autocomplete-input">
-                                        <select class="form-select" {% if diagnosis.added_by != request.user %}disabled{% endif %} name="" id="suggestions-list">
-                                        </select>
+								
                                         <input type="text" class="form-control" value="{{ diagnosis.patient.custom_patient_id }}" placeholder="" required readonly name="" id="selectedID">
                                    </div>
 						</div>
@@ -124,8 +122,8 @@
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test3">Diabets Pedigree Function<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_diabetes_pedigree_function" required step="0.001" id="test3" placeholder="Diabets Pedigree Function" value="{{ diagnosis.test_diabetes_pedigree_function }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
+								<label for="test3">Diabetes Pedigree Function<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="test_diabetes_pedigree_function" required step="0.001" id="test3" placeholder="Diabetes Pedigree Function" value="{{ diagnosis.test_diabetes_pedigree_function }}" {% if diagnosis.added_by != request.user %}readonly{% endif %}>
 							</div>
 						</div>
 						<div class="col-md-12 mb-3">
@@ -133,6 +131,25 @@
 								<label for="test3">Prediction Result</label>
 								<input class="form-control {% if diagnosis.prediction_result == True %}text-white bg-danger{% else %}text-white bg-success{% endif %}" type="text" name="" readonly required step="0.01" id="test3" value="{% if diagnosis.prediction_result == True %}Positive{% else %}Negative{% endif %}" placeholder="">
 							</div>
+						</div>
+						<div class="col-md-12 mb-3">
+							{% if diagnosis.prediction_result == False %}
+								<span>Based on your results, you don't have diabetes. Keep up the good work! These healthy habits will help keep your risk low:</span>
+								<ul class="list-unstyled ms-4">
+									<li><i class="bi bi-check-lg text-success"></i> Get at least 150 minutes of physical activity a week.</li>
+									<li><i class="bi bi-check-lg text-success"></i> Keep your weight in a healthy range.</li>
+									<li><i class="bi bi-check-lg text-success"></i> Eat healthy foods, including lots of fruits and veggies.</li>
+									<li><i class="bi bi-check-lg text-success"></i> Drink more water and fewer sugary drinks.</li>
+									<li><i class="bi bi-check-lg text-success"></i> Don’t smoke.</li>
+								</ul>
+							{% else %}
+								<span class="fw-bold fs-5">Based on your results, you are positive of diabetes.</span>
+								<br>
+								<span>What Should I Do Now?</span>
+								<ul class="list-unstyled">
+									<li>You may feel like you don’t know where to begin. It’s important to consult your doctor before taking any next step.</li>
+								</ul>
+							{% endif %}
 						</div>
                               <div class="col-md-6 mb-3">
 							<div class="form-group">

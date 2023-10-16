@@ -53,17 +53,16 @@ def diagnos_update(request, id):
           
           date = request.POST.get('date')
           description = request.POST.get('description')
-          current_age = int(request.POST.get('current_age'))
-          current_weight = Decimal(request.POST.get('current_weight'))
-          test_pregnancies = int(request.POST.get('test_pregnancies'))
-          test_glucose = int(request.POST.get('test_glucose'))
-          test_blood_pressure = int(request.POST.get('test_blood_pressure'))
-          test_skin_thickness = int(request.POST.get('test_skin_thickness'))
-          test_insulin = int(request.POST.get('test_insulin'))
-          test_bmi = Decimal(request.POST.get('test_bmi'))
-          test_diabetes_pedigree_function = Decimal(request.POST.get('test_diabetes_pedigree_function'))
+          current_age = int(float(request.POST.get('current_age')))
+          current_weight = float(request.POST.get('current_weight'))
+          test_pregnancies = int(float(request.POST.get('test_pregnancies')))
+          test_glucose = int(float(request.POST.get('test_glucose')))
+          test_blood_pressure = int(float(request.POST.get('test_blood_pressure')))
+          test_skin_thickness = int(float(request.POST.get('test_skin_thickness')))
+          test_insulin = int(float(request.POST.get('test_insulin')))
+          test_bmi = float(request.POST.get('test_bmi'))
+          test_diabetes_pedigree_function = float(request.POST.get('test_diabetes_pedigree_function'))
           
-          # Update the existing diagnosis object
           diagnosis.patient = patient
           diagnosis.date = date
           diagnosis.description = description
@@ -115,28 +114,28 @@ def diagnos_create(request):
           
           date = request.POST.get('date')
           description = request.POST.get('description')
-          current_age = int(request.POST.get('current_age'))
-          current_weight = Decimal(request.POST.get('current_weight'))
-          test_pregnancies = int(request.POST.get('test_pregnancies'))
-          test_glucose = int(request.POST.get('test_glucose'))
-          test_blood_pressure = int(request.POST.get('test_blood_pressure'))
-          test_skin_thickness = int(request.POST.get('test_skin_thickness'))
-          test_insulin = int(request.POST.get('test_insulin'))
-          test_bmi = Decimal(request.POST.get('test_bmi'))
-          test_diabetes_pedigree_function = Decimal(request.POST.get('test_diabetes_pedigree_function'))
+          current_age = request.POST.get('current_age')
+          current_weight = float(request.POST.get('current_weight'))
+          test_pregnancies = request.POST.get('test_pregnancies')
+          test_glucose = request.POST.get('test_glucose')
+          test_blood_pressure = request.POST.get('test_blood_pressure')
+          test_skin_thickness = request.POST.get('test_skin_thickness')
+          test_insulin =request.POST.get('test_insulin')
+          test_bmi = float(request.POST.get('test_bmi'))
+          test_diabetes_pedigree_function = float(request.POST.get('test_diabetes_pedigree_function'))
           
           Diagnosis.objects.create(
                added_by=request.user,
                patient=patient,
                date=date,
                description=description,
-               current_age=current_age,
+               current_age=int(float(current_age)),
                current_weight=current_weight,
-               test_pregnancies=test_pregnancies,
-               test_glucose=test_glucose,
-               test_blood_pressure=test_blood_pressure,
-               test_skin_thickness=test_skin_thickness,
-               test_insulin=test_insulin,
+               test_pregnancies=int(float(test_pregnancies)),
+               test_glucose=int(float(test_glucose)),
+               test_blood_pressure=int(float(test_blood_pressure)),
+               test_skin_thickness=int(float(test_skin_thickness)),
+               test_insulin=int(float(test_insulin)),
                test_bmi=test_bmi,
                test_diabetes_pedigree_function=test_diabetes_pedigree_function,
           )
@@ -188,7 +187,7 @@ def patient_delete(request, id):
 @login_required(login_url='/login')
 def patient_update(request, id):
     # Get the patient object you want to update
-    patient = get_object_or_404(Patient, pk=id)
+    patient = get_object_or_404(Patient, custom_patient_id=id)
     
     if request.method == 'POST':
         form = PatientFrom(request.POST, instance=patient)

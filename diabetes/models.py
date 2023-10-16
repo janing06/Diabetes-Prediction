@@ -72,7 +72,7 @@ class Diagnosis(models.Model):
      current_age = models.IntegerField(verbose_name='Current Age')
      current_weight = models.DecimalField(max_digits=5, decimal_places=1, verbose_name='Current Weight (kg)')
      test_pregnancies = models.IntegerField(verbose_name='Pregnancies')
-     test_glucose = models.IntegerField(verbose_name='Glocuse')
+     test_glucose = models.IntegerField(verbose_name='Glucose')
      test_blood_pressure = models.IntegerField(verbose_name='Blood Pressure')
      test_skin_thickness = models.IntegerField(verbose_name='Skin Thickness')
      test_insulin = models.IntegerField(verbose_name='Insulin')
@@ -92,10 +92,9 @@ class Diagnosis(models.Model):
           
           if result[0] == 1:
                self.prediction_result = True
-          elif result[0] == 0:
-               self.prediction_result = False
           else:
-               self.prediction_result = ''
+               self.prediction_result = False
+
           super(Diagnosis, self).save(*args, **kwargs)
      
      def __str__(self):
