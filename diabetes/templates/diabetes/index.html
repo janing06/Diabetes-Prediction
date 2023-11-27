@@ -224,8 +224,8 @@
 		type: 'pie',
 		data: {
 			labels: [
-			  'Positive ({{ positive_count }})',
-			  'Negative ({{ negative_count }})',
+			  'Total Positive ({{ positive_count }})',
+			  'Total Negative ({{ negative_count }})',
 			],
 			datasets: [{
 			  label: 'Prediction',
@@ -245,17 +245,73 @@
 			
 			if (selectedValue === "total") {
 				pieChart.data.datasets[0].data = ['{{ positive_count }}', '{{ negative_count }}']
-				pieChart.data.labels[0] = ['Positive ({{ positive_count }})']
-				pieChart.data.labels[1] = ['Negative ({{ negative_count }})']
+				pieChart.data.labels[0] = ['Total Positive ({{ positive_count }})']
+				pieChart.data.labels[1] = ['Total Negative ({{ negative_count }})']
 				pieChart.update()
 			} else if (selectedValue === "currentYear") {
 				pieChart.data.datasets[0].data = ['{{ positive_count_yearly }}', '{{ negative_count_yearly }}']
-				pieChart.data.labels[0] = ['Positive ({{ positive_count_yearly }})']
-				pieChart.data.labels[1] = ['Negative ({{ negative_count_yearly }})']
+				pieChart.data.labels[0] = ['Current year Positive ({{ positive_count_yearly }})']
+				pieChart.data.labels[1] = ['Current year Negative ({{ negative_count_yearly }})']
 				pieChart.update()
 			}
 		 }
 
+
+
+		const canvaBarChart = document.getElementById('barChart');
+		const canvasPieChart = document.getElementById('pieChart');
+    
+    	const exportBtn = document.getElementById('exportBtn');
+		exportBtn.addEventListener('click', () => {
+		// Create a new pdfMake instance
+		const docDefinition = {
+			content: [
+			{
+				text: 'Diabetes Chart',
+				margin: [20,20,20,50],
+				alignment: 'center',
+				bold: true,
+				fontSize: 20,
+			},
+			
+			{
+				text: 'Bar Chart',
+			},
+			{
+				image: canvaBarChart.toDataURL('image/png'),
+				width: 500,
+				margin: [0,0,0,30],
+
+				// adjust the width as per your requirement
+			},
+			{
+            // Horizontal Line (similar to <hr>)
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 500, y2: 0, lineWidth: 1, color: '#4e4e4e' }],
+        },
+			{
+				text: 'Pie Chart',
+				margin: [0,30,0,0],
+
+			},
+			{
+				image: canvasPieChart.toDataURL('image/png'),
+				width: 300,
+				margin: [0,0,0,30],
+				alignment: 'center',
+
+
+				// adjust the width as per your requirement
+			},
+			
+		
+			]
+		};
+		
+		// Generate the PDF
+		pdfMake.createPdf(docDefinition).download('Chart.pdf');
+		});
+
 	   </script>
+
 </x-app-layout>
 {% endblock %}

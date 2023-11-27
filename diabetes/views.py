@@ -250,7 +250,7 @@ def patient_index(request):
 def login(request):
      if not request.user.is_authenticated:
           if request.method == "POST":
-               username = request.POST.get('username')
+               username = request.POST.get('username').strip()
                password = request.POST.get('password')
                user = authenticate(username=username, password=password)
                if user is not None:
