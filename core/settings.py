@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'naval_diabetes_db',  # Replace with your database name
+        'NAME': 'diabetes_db',  # Replace with your database name
         'USER': 'postgres',    # Replace with your database user
         'PASSWORD': '12345',  # Replace with your database password
         'HOST': 'localhost',  # Set to the hostname where PostgreSQL is running

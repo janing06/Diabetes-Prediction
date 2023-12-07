@@ -10,6 +10,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn import metrics
 from sklearn.metrics import classification_report
+from django.shortcuts import get_object_or_404
+import datetime
+
 
 
 
@@ -52,6 +55,7 @@ class Patient(models.Model):
      first_name = models.CharField(max_length=255, verbose_name='First name')
      middle_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Middle name')
      last_name = models.CharField(max_length=255, verbose_name='Last name')
+     birth_date = models.DateField()
      sex = models.CharField(max_length=1,choices=(('M','M'),('F','F')))
      address = models.CharField(max_length=255, null=True, blank=True)
      barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
@@ -69,7 +73,7 @@ class Diagnosis(models.Model):
      date = models.DateField()
      created_at = models.DateTimeField(auto_now_add=True)
      updated_at = models.DateTimeField(auto_now=True)
-     current_age = models.IntegerField(verbose_name='Current Age')
+     current_age = models.IntegerField()
      current_weight = models.DecimalField(max_digits=5, decimal_places=1, verbose_name='Current Weight (kg)')
      test_pregnancies = models.IntegerField(verbose_name='Pregnancies')
      test_glucose = models.IntegerField(verbose_name='Glucose')
@@ -82,11 +86,23 @@ class Diagnosis(models.Model):
      
      def save(self, *args, **kwargs):
 
+
           model_file_path = Path(settings.BASE_DIR) / 'diabetes' / 'trained_model_diabetes' / 'diabetes-prediction-model.pkl'
           
           model = joblib.load(model_file_path)
+
+          patient = get_object_or_404(Patient, pk=self.patient.id)
+
+          current_year = datetime.datetime.now().year
+
+          patient_age = current_year - patient.birth_date.year
+
+          print(patient_age)
+
+          self.current_age = patient_age
+
           
-          result = model.predict([[self.test_pregnancies, self.test_glucose, self.test_blood_pressure, self.test_skin_thickness, self.test_insulin, self.test_bmi, self.test_diabetes_pedigree_function, self.current_age]])
+          result = model.predict([[self.test_pregnancies, self.test_glucose, self.test_blood_pressure, self.test_skin_thickness, self.test_insulin, self.test_bmi, self.test_diabetes_pedigree_function, patient_age]])
 
           print(result[0])
           

@@ -54,7 +54,7 @@ class DiagnosisAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = DiagnosisResource
 
     list_per_page = 10
-    list_display = ['patient', 'current_age', 'current_weight', 'prediction_result']
+    list_display = ['patient', 'current_weight', 'prediction_result']
     autocomplete_fields = ['patient']
     readonly_fields = ['prediction_result']
     ordering = ['-created_at']

@@ -53,7 +53,7 @@ def diagnos_update(request, id):
           
           date = request.POST.get('date')
           description = request.POST.get('description')
-          current_age = int(float(request.POST.get('current_age')))
+          # current_age = int(float(request.POST.get('current_age')))
           current_weight = float(request.POST.get('current_weight'))
           test_pregnancies = int(float(request.POST.get('test_pregnancies')))
           test_glucose = int(float(request.POST.get('test_glucose')))
@@ -66,7 +66,7 @@ def diagnos_update(request, id):
           diagnosis.patient = patient
           diagnosis.date = date
           diagnosis.description = description
-          diagnosis.current_age = current_age
+          # diagnosis.current_age = current_age
           diagnosis.current_weight = current_weight
           diagnosis.test_pregnancies = test_pregnancies
           diagnosis.test_glucose = test_glucose
@@ -114,7 +114,7 @@ def diagnos_create(request):
           
           date = request.POST.get('date')
           description = request.POST.get('description')
-          current_age = request.POST.get('current_age')
+          # current_age = request.POST.get('current_age')
           current_weight = float(request.POST.get('current_weight'))
           test_pregnancies = request.POST.get('test_pregnancies')
           test_glucose = request.POST.get('test_glucose')
@@ -129,7 +129,7 @@ def diagnos_create(request):
                patient=patient,
                date=date,
                description=description,
-               current_age=int(float(current_age)),
+               # current_age=int(float(current_age)),
                current_weight=current_weight,
                test_pregnancies=int(float(test_pregnancies)),
                test_glucose=int(float(test_glucose)),
