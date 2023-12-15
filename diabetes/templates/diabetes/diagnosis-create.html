@@ -241,8 +241,8 @@
 
 			id.textContent = `ID: ${data.custom_patient_id}`
 			name.textContent = `Name: ${toProperCase(data.first_name)} ${toProperCase(data.middle_name)} ${toProperCase(data.last_name)}`
-			gender.textContent = `Sex: ${toProperCase(data.gender)}`
-			birth_date.textContent = `Date of birth: ${data.birth_date}`
+			//gender.textContent = `Sex: ${toProperCase(data.gender)}`
+			//birth_date.textContent = `Date of birth: ${data.birth_date}`
 
 			if (data.gender === 'M') {
 				// If gender is male, set the input field to readonly
