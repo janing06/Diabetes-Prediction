@@ -2,14 +2,20 @@
 {% block title %} Add Diagnosis {% endblock %}
 {% block content %}
 
+<style>
+	.pregnancy_hide{
+		display: none;
+	}
+</style>
+
 <x-app-layout>
-     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
 		<div class="d-block mb-md-0">
 			<h2 class="h4">Add Diagnosis</h2>
 		</div>
 	</div>
-	<div class="row justify-content-center mb-4">
-		<div class="col-12 col-xl-10">
+	<div class="row mb-4">
+		<div class="col-8 col-xl-8">
 
 			<div class="card card-body border-0 shadow-lg mb-4 p-5">
 				<h2 class="h5 mb-4">Diagnosis information</h2>
@@ -17,79 +23,101 @@
 				<form method="POST" action="">
 					{% csrf_token %}
 					<div class="row">
-						<div class="col-md-8 mb-3">
-                                   <label for="patient">Patient<span class="text-danger">*</span><input name="patient" type="" readonly id="patientID" style="display: none;"></label>
-                                   <div class="input-group" id="patient">
-                                        <input type="text" class="form-control" placeholder="Search ID..." name="" id="autocomplete-input">
-                                        <select class="form-select" name="" id="suggestions-list">
-                                        </select>
-                                        <input type="text" class="form-control" placeholder="" required readonly name="" id="selectedID">
-                                   </div>
+						<div class="col-md-4 mb-3">
+							<label for="patient">Search Patient ID</label>
+
+								<input type="text" class="form-control" placeholder="Search ID..." name="" id="autocomplete-input">
 						</div>
-                              <div class="col-md-4 mb-3">
+						<div class="col-md-4 mb-3">
+							<label for="patient">Patient<span class="text-danger">*</span><input name="patient" type=""readonly id="patientID" style="display: none;"></label>
+							<div class="input-group" id="patient">
+								<!-- <input type="text" class="form-control" placeholder="Search ID..." name=""id="autocomplete-input"> -->
+								<select class="form-select" name="selected_patient_id" id="suggestions-list">
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12 mb-3 ms-3" >
+							<p id="id">ID: </p>
+							<p id="name">Name: </p>
+							<!-- <p id="gender">Gender: M</p>
+							<p id="birth_date">Birth Date: </p> -->
+
+							<input type="text" class="form-control" placeholder="" required readonly name="" id="selectedID" style="display: none;">
+						</div>
+						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="date">Date<span class="text-danger">*</span></label>
-								<input class="form-control" name="date" required type="date" id="date">
+								<input class="form-control" name="date" max="{% now 'Y-m-d' %}" required type="date"
+									id="date">
 							</div>
 						</div>
 						<div class="col-md-12 mb-3">
 							<div class="form-group">
 								<label for="">Description</label>
-                                        <textarea class="form-control" name="description" placeholder="Description.."  aria-label="With textarea"></textarea> 
-                                   </div>
-						</div>	
+								<textarea class="form-control" name="description" placeholder="Description.."
+									aria-label="With textarea"></textarea>
+							</div>
+						</div>
 						<!-- <div class="col-md-6 mb-3">
 							<div class="form-group">
 								<label for="age">Current Age<span class="text-danger">*</span></label>
 								<input class="form-control" type="number" name="current_age" required id="age" placeholder="Age">
 							</div>
 						</div> -->
-                              <div class="col-md-6 mb-3">
-							<div class="form-group">
-								<label for="weight">Current Weight (kg)<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="current_weight" required step="0.01" id="weight" placeholder="Weight">
-							</div>
-						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
+								<label for="weight">Current Weight (kg)<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="current_weight" required step="0.01"
+									id="weight" placeholder="Weight">
+							</div>
+						</div>
+						<div class="col-md-4 mb-3" id="pregnancy">
+							<div class="form-group">
 								<label for="test1">Pregnancies (No.)<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_pregnancies" id="test1" placeholder="Pregnancies">
+								<input class="form-control" type="number" name="test_pregnancies" id="test1"
+									placeholder="Pregnancies">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test2">Glocuse<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_glucose" id="test2" placeholder="Glocuse">
+								<input class="form-control" type="number" name="test_glucose" id="test2"
+									placeholder="Glocuse">
 							</div>
 						</div>
-                              <div class="col-md-4 mb-3">
+						<div class="col-md-4 mb-3">
 							<div class="form-group">
-								<label for="test3">Blood Pressure<span class="text-danger">*</span></label>
-								<input class="form-control" min="1" max="200" type="number" name="test_blood_pressure" id="test3" placeholder="Blood Pressure">
+								<label for="test3">Blood Pressure (Diastolic)<span class="text-danger">*</span></label>
+								<input class="form-control" min="1" max="200" type="number" name="test_blood_pressure"
+									id="test3" placeholder="Blood Pressure">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test3">Skin Thickness<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_skin_thickness" id="test3" placeholder="Skin Thickness">
+								<input class="form-control" type="number" name="test_skin_thickness" id="test3"
+									placeholder="Skin Thickness">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test3">Insulin<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_insulin"  id="test3" placeholder="Insulin">
+								<input class="form-control" type="number" name="test_insulin" id="test3"
+									placeholder="Insulin">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test3">BMI (Body Mass Index)<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_bmi" required step="0.01" id="test3" placeholder="BMI">
+								<input class="form-control" type="number" name="test_bmi" required step="0.01"
+									id="test3" placeholder="BMI">
 							</div>
 						</div>
 						<div class="col-md-4 mb-3">
 							<div class="form-group">
 								<label for="test3">Diabetes Pedigree Function<span class="text-danger">*</span></label>
-								<input class="form-control" type="number" name="test_diabetes_pedigree_function" required step="0.001" id="test3" placeholder="Diabetes Pedigree Function">
+								<input class="form-control" type="number" name="test_diabetes_pedigree_function"
+									required step="0.001" id="test3" placeholder="Diabetes Pedigree Function">
 							</div>
 						</div>
 					</div>
@@ -102,68 +130,164 @@
 			</div>
 
 		</div>
+		<div class="col-4 col-xl-4">
+			<div class="card card-body border-0 shadow-lg mb-4 p-5">
+				<h2 class="h5 mb-4">Description</h2>
+				<div>
+					Pregnancies
+					<ul>
+						<li>Definition: The number of times a person has been pregnant.</li>
+						<li>Range: 0-17 (indicating the number of pregnancies, starting from none up to 17 or more).</li>
+					</ul>
+				</div>
+				<div>
+					Glucose
+					<ul>
+						<li>Definition: Plasma glucose concentration measured during an oral glucose tolerance test.</li>
+						<li>Range: 0-199, representing the concentration level.</li>
+					</ul>
+				</div>
+				<div>
+					Blood Pressure
+					<ul>
+						<li>Definition: Diastolic blood pressure, which is the pressure in the arteries when the heart is at rest.</li>
+						<li>Range: 0-122 (measured in mm Hg).</li>
+					</ul>
+				</div>
+				<div>
+					Skin Thickness
+					<ul>
+						<li>Definition: Triceps skin fold thickness, often used as an indicator of body fat.</li>
+						<li>Range: 0-99 (measured in millimeters).</li>
+					</ul>
+				</div>
+				<div>
+					Insulin
+					<ul>
+						<li>Definition: 2-hour serum insulin levels measured in the blood.</li>
+						<li>Range: 0-846 (measured in μU/ml).</li>
+					</ul>
+				</div>
+				<div>
+					BMI (Body Mass Index)
+					<ul>
+						<li>Definition: A measure of body fat based on height and weight.</li>
+						<li>Range: 0-67 (calculated as weight in kg divided by the square of height in meters).</li>
+					</ul>
+				</div>
+				<div>
+					Diabetes Pedigree Function
+					<ul>
+						<li>Definition: A function that scores likelihood of diabetes based on family history.</li>
+						<li>Range: 0-2.45 (dimensionless score).</li>
+					</ul>
+				</div>
+				
+		</div>
 	</div>
 </x-app-layout>
-   
-  
-   
 
-     <script>
-          const autocompleteInput = document.getElementById('autocomplete-input');
-          const suggestionsList = document.getElementById('suggestions-list');
-          const selectedID = document.getElementById('selectedID');
-          const patientID = document.getElementById('patientID');
 
-		function checkValidation(){
-			if(selectedID.value === ''){
-				selectedID.classList.add('is-invalid')
-				selectedID.classList.remove('is-valid')
-			}else{
-				selectedID.classList.add('is-valid')
-				selectedID.classList.remove('is-invalid')
+
+
+<script>
+	const autocompleteInput = document.getElementById('autocomplete-input');
+	const suggestionsList = document.getElementById('suggestions-list');
+	const selectedID = document.getElementById('selectedID');
+	const patientID = document.getElementById('patientID');
+	const id = document.getElementById('id');
+	const name = document.getElementById('name');
+	const gender = document.getElementById('gender');
+	const birth_date = document.getElementById('birth_date');
+	const pregnancy = document.getElementById('pregnancy');
+	
+
+
+
+
+	function checkValidation() {
+		if (selectedID.value === '') {
+			selectedID.classList.add('is-invalid')
+			selectedID.classList.remove('is-valid')
+		} else {
+			selectedID.classList.add('is-valid')
+			selectedID.classList.remove('is-invalid')
+		}
+	}
+
+	window.addEventListener('load', checkValidation)
+
+	document.addEventListener('click', checkValidation)
+
+	function toProperCase(inputString) {
+		return inputString.replace(/\b\w/g, function(match) {
+			return match.toUpperCase();
+		});
+	}
+
+	suggestionsList.addEventListener('click', async () => {
+		const selectedOption = suggestionsList.options[suggestionsList.selectedIndex];
+		if (selectedOption) {
+			selectedID.value = selectedOption.textContent;
+			patientID.value = selectedOption.value
+			autocompleteInput.value = selectedOption.textContent
+
+
+			const response = await fetch(`/patient_info/${selectedOption.value}`);
+
+			const data = await response.json()
+
+			console.log(data)
+
+			id.textContent = `ID: ${data.custom_patient_id}`
+			name.textContent = `Name: ${toProperCase(data.first_name)} ${toProperCase(data.middle_name)} ${toProperCase(data.last_name)}`
+			gender.textContent = `Sex: ${toProperCase(data.gender)}`
+			birth_date.textContent = `Date of birth: ${data.birth_date}`
+
+			if (data.gender === 'M') {
+				// If gender is male, set the input field to readonly
+				document.getElementById('test1').readOnly = true;
+			} else {
+				// If gender is not male, remove the readonly attribute
+				document.getElementById('test1').readOnly = false;
 			}
 		}
 
-		window.addEventListener('load', checkValidation)
+		
+		
 
-		document.addEventListener('click', checkValidation)
 
-		suggestionsList.addEventListener('click', () => {
-			const selectedOption = suggestionsList.options[suggestionsList.selectedIndex];
-			if (selectedOption) {
-				selectedID.value = selectedOption.textContent;
-				patientID.value = selectedOption.value
+	});
+
+	autocompleteInput.addEventListener('input', async function () {
+		const query = this.value.trim();
+		suggestionsList.innerHTML = '';
+
+		if (query.length === 0) {
+			return;
+		}
+
+		try {
+			const response = await fetch(`/patient_api/?q=${query}`);
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-		 });
 
-          autocompleteInput.addEventListener('input', async function () {
-          const query = this.value.trim();
-          suggestionsList.innerHTML = '';
+			const data = await response.json();
 
-          if (query.length === 0) {
-               return;
-          }
+			console.log(data)
 
-          try {
-               const response = await fetch(`/patient_api/?q=${query}`);
-               if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-               }
-
-               const data = await response.json();
-
-               console.log(data)
-
-               data.forEach(patient => {
-                    console.log(patient.custom_patient_id)
-                    const suggestionItem = document.createElement('option');
-                    suggestionItem.value = patient.id
-                    suggestionItem.textContent = patient.custom_patient_id
-                    suggestionsList.appendChild(suggestionItem);
-               });
-          } catch (error) {
-               console.error('Error:', error);
-          }
-          });
-     </script>
+			data.forEach(patient => {
+				console.log(patient.first_name)
+				const suggestionItem = document.createElement('option');
+				suggestionItem.value = patient.id
+				suggestionItem.textContent = patient.custom_patient_id
+				suggestionsList.appendChild(suggestionItem);
+			});
+		} catch (error) {
+			console.error('Error:', error);
+			console.log('sadsadsad')
+		}
+	});
+</script>
 {% endblock %}

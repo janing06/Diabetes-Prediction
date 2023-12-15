@@ -13,6 +13,7 @@ urlpatterns = [
      path('patient/delete/<int:id>/', views.patient_delete, name='patient-delete'),
      path('profile/update-password/', views.update_password, name='update-password'),
      path('patient_api/', views.patient_list_api, name='patient-api'),
+     path('patient_info/<int:id>', views.patient_info, name='patient-info'),
      path('diagnosis/', views.diagnosis_index, name='diagnosis'),
      path('diagnosis/create/', views.diagnos_create, name='diagnosis-create'),
      path('diagnosis/update/<int:id>/', views.diagnos_update, name='diagnosis-update'),

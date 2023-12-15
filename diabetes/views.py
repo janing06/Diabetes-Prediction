@@ -55,14 +55,19 @@ def diagnos_update(request, id):
           description = request.POST.get('description')
           # current_age = int(float(request.POST.get('current_age')))
           current_weight = float(request.POST.get('current_weight'))
-          test_pregnancies = int(float(request.POST.get('test_pregnancies')))
+
+          if patient.sex == 'M':
+               test_pregnancies = 0
+          else:
+               test_pregnancies = int(float(request.POST.get('test_pregnancies')))
+                    
           test_glucose = int(float(request.POST.get('test_glucose')))
           test_blood_pressure = int(float(request.POST.get('test_blood_pressure')))
           test_skin_thickness = int(float(request.POST.get('test_skin_thickness')))
           test_insulin = int(float(request.POST.get('test_insulin')))
           test_bmi = float(request.POST.get('test_bmi'))
           test_diabetes_pedigree_function = float(request.POST.get('test_diabetes_pedigree_function'))
-          
+
           diagnosis.patient = patient
           diagnosis.date = date
           diagnosis.description = description
@@ -95,17 +100,32 @@ def patient_list_api(request):
      
      query = request.GET.get('q', '')
 
-     patients = Patient.objects.filter(custom_patient_id__istartswith=query).values('id', 'custom_patient_id').order_by('-custom_patient_id')
+     patients = Patient.objects.filter(custom_patient_id__istartswith=query).values('id', 'custom_patient_id','first_name','middle_name','last_name','sex', 'birth_date').order_by('-custom_patient_id')
 
      return JsonResponse(list(patients), safe=False)
 
+@login_required(login_url='/login')
+def patient_info(request, id):
+     
+     patient = get_object_or_404(Patient, id=id)
+     patient_data = {
+        "id": patient.id,
+        "custom_patient_id": patient.custom_patient_id,
+        "first_name": patient.first_name,
+        "middle_name": patient.middle_name,
+        "last_name": patient.last_name,
+        "gender": patient.sex,
+        "birth_date": patient.birth_date,
+     }
+
+     return JsonResponse(patient_data)
 
 @login_required(login_url='/login')
 def diagnos_create(request):
 
      if request.method == 'POST':
      
-          patient_id = request.POST.get('patient')
+          patient_id = request.POST.get('selected_patient_id')
           try:
                patient = get_object_or_404(Patient, pk=patient_id)
           except:
@@ -116,13 +136,20 @@ def diagnos_create(request):
           description = request.POST.get('description')
           # current_age = request.POST.get('current_age')
           current_weight = float(request.POST.get('current_weight'))
-          test_pregnancies = request.POST.get('test_pregnancies')
+          if patient.sex == 'M':
+               test_pregnancies = 0
+          else:
+               test_pregnancies = request.POST.get('test_pregnancies')
           test_glucose = request.POST.get('test_glucose')
           test_blood_pressure = request.POST.get('test_blood_pressure')
           test_skin_thickness = request.POST.get('test_skin_thickness')
           test_insulin =request.POST.get('test_insulin')
           test_bmi = float(request.POST.get('test_bmi'))
           test_diabetes_pedigree_function = float(request.POST.get('test_diabetes_pedigree_function'))
+
+
+          # print(request.POST.get('selected_patient_id'))
+          
           
           Diagnosis.objects.create(
                added_by=request.user,

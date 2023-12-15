@@ -97,14 +97,14 @@ class Diagnosis(models.Model):
 
           patient_age = current_year - patient.birth_date.year
 
-          print(patient_age)
+          # print(patient_age)
 
           self.current_age = patient_age
 
           
           result = model.predict([[self.test_pregnancies, self.test_glucose, self.test_blood_pressure, self.test_skin_thickness, self.test_insulin, self.test_bmi, self.test_diabetes_pedigree_function, patient_age]])
 
-          print(result[0])
+          # print(result[0])
           
           if result[0] == 1:
                self.prediction_result = True

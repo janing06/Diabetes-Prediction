@@ -92,6 +92,17 @@
 						</div>
 						<div class="col-md-6 mb-3">
 							<div class="form-group">
+								<label for="name">Date of birth<span class="text-danger">*</span></label>
+								
+								{% if patient.added_by == request.user %}
+								{{ form.birth_date }}
+								{% else %}
+								<input type="text" value="{{ form.birth_date.value }}" class="form-control" readonly>
+								{% endif %}
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-group">
 								<label for="name">Sex<span class="text-danger">*</span></label>
 								
 								{% if patient.added_by == request.user %}

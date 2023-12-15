@@ -45,7 +45,8 @@
 					<th class="border-gray-200">Patient ID</th>
 					<th class="border-gray-200">Patient Name</th>
 					<th class="border-gray-200">Date</th>
-					<th class="border-gray-200">Current Age</th>
+					<th class="border-gray-200">Age</th>
+					<th class="border-gray-200">Sex</th>
 					<th class="border-gray-200">Current Weight (kg)</th>
 					<th class="border-gray-200">Added by</th>
 					<th class="border-gray-200">Prediction</th>
@@ -62,6 +63,7 @@
 						<td valign="middle"><span class="fw-normal">{{ diagnos.patient.first_name|title }} {{ diagnos.patient.last_name|title }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ diagnos.date }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ diagnos.current_age }}</span></td>
+						<td valign="middle"><span class="fw-normal">{{ diagnos.patient.sex }}</span></td>
 						<td valign="middle"><span class="fw-normal">{{ diagnos.current_weight }}</span></td>		
 						<td valign="middle"><span class="fw-normal">{{ diagnos.added_by.first_name|title }} {{ diagnos.added_by.last_name|title }}</span></td>
 						<td valign="middle"><span class="fw-normal">{% if diagnos.prediction_result == True %}<span class="bg-danger rounded-pill text-white p-2 ">POSITIVE</span>{% else %}<span class="bg-success text-white rounded-pill p-2">NEGATIVE</span>{% endif %}</span></td>						
