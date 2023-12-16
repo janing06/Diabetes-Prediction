@@ -246,10 +246,13 @@
 
 			if (data.gender === 'M') {
 				// If gender is male, set the input field to readonly
-				document.getElementById('test1').readOnly = true;
+				document.getElementById('test1').disabled = true;
+				document.getElementById('test1').value = 0;
 			} else {
 				// If gender is not male, remove the readonly attribute
-				document.getElementById('test1').readOnly = false;
+				document.getElementById('test1').disabled = false;
+				document.getElementById('test1').value = '';
+
 			}
 		}
 
