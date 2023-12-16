@@ -299,9 +299,15 @@
 			},
 			{
 				image: canvasPieChart.toDataURL('image/png'),
-				width: 300,
+				width: 250,
 				margin: [0,0,0,30],
 				alignment: 'center',
+
+
+				// adjust the width as per your requirement
+			},
+			{	text: 'Prepared by: {{request.user.first_name|title}} {{request.user.last_name|title}}\nPrepared date: {% now "F j, Y" %}',
+				margin: [0,0,0,30],
 
 
 				// adjust the width as per your requirement
